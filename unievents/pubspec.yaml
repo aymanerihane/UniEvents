@@ -30,10 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.0.0+3
-  get: ^4.1.4
-  google_fonts: ^2.1.0
-  hidden_drawer_menu: ^3.0.1
+  sqflite: 
+  path:
+  get:
+  google_fonts: 
+  hidden_drawer_menu: 
 
 
   # The following adds the Cupertino Icons font to your application.
