@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+import 'package:unievents/wigwts/card.dart';
 import '../homePage/homePage.dart';
 
 class Hidden_Drawer extends StatefulWidget {
@@ -10,33 +11,39 @@ class Hidden_Drawer extends StatefulWidget {
 }
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
-
   List<ScreenHiddenDrawer> _pages = [];
 
-  void initState(){
+  void initState() {
     super.initState();
-    
+
     _pages = [
       ScreenHiddenDrawer(
-        ItemHiddenMenu(
-          name: "HOME",
-          baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
-          colorLineSelected: Colors.white,
-          selectedStyle: TextStyle(color: Colors.black),
-        ),
-        HomePage()
-      ),
-      
+          ItemHiddenMenu(
+            name: "HOME",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: Colors.white,
+            selectedStyle: TextStyle(color: Colors.black),
+          ),
+          HomePage()),
+      ScreenHiddenDrawer(
+          ItemHiddenMenu(
+            name: "HOME",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: Colors.white,
+            selectedStyle: TextStyle(color: Colors.black),
+          ),
+          CardPage()),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return HiddenDrawerMenu(
-      verticalScalePercent: 85.0,
-      slidePercent : 50.0,
-      screens: _pages, 
-      backgroundColorMenu: Color.fromARGB(255, 51, 182, 160));
-      
+        verticalScalePercent: 85.0,
+        slidePercent: 50.0,
+        screens: _pages,
+        backgroundColorMenu: Color.fromARGB(255, 51, 182, 160));
   }
 }
