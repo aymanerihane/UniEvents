@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:unievents/templates/EventTime/event_time.dart';
+import 'package:unievents/wigwts/card.dart';
 import '../homePage/homePage.dart';
 
 class Hidden_Drawer extends StatefulWidget {
@@ -11,12 +12,11 @@ class Hidden_Drawer extends StatefulWidget {
 }
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
-
   List<ScreenHiddenDrawer> _pages = [];
 
-  void initState(){
+  void initState() {
     super.initState();
-    
+
     _pages = [
       ScreenHiddenDrawer(
         ItemHiddenMenu(
@@ -37,6 +37,16 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
         Event_Time()
       ),
       
+
+      ScreenHiddenDrawer(
+          ItemHiddenMenu(
+            name: "Cadrs",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: Colors.white,
+            selectedStyle: TextStyle(color: Colors.black),
+          ),
+          CardPage()),
     ];
   }
 
@@ -54,5 +64,6 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
         backgroundColorMenu: Color.fromARGB(255, 51, 182, 160)),
     );
       
+
   }
 }
