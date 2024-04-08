@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unievents/themes/themes.dart';
 
 class Card_Event extends StatelessWidget {
   final String label;
@@ -23,7 +24,7 @@ class Card_Event extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.blue,
+              color: secondaryColor,
             ),
             child: Container(
               margin: const EdgeInsets.all(8),

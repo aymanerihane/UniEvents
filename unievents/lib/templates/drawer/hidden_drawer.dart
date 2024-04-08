@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:unievents/templates/EventTime/event_time.dart';
-import 'package:unievents/wigwts/card.dart';
+import 'package:unievents/themes/themes.dart';
+import 'package:unievents/wigets/card.dart';
 import '../homePage/homePage.dart';
 
 class Hidden_Drawer extends StatefulWidget {
@@ -13,6 +14,7 @@ class Hidden_Drawer extends StatefulWidget {
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
   List<ScreenHiddenDrawer> _pages = [];
+  List<Widget> _actions = [];
 
   void initState() {
     super.initState();
@@ -48,20 +50,31 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
           ),
           CardPage()),
     ];
-  }
+  
+  
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hidden Drawer'),
-      ),
       body: HiddenDrawerMenu(
         elevationAppBar: 0,
+        backgroundColorAppBar: primaryColor,
+        backgroundColorContent: Colors.white,
+        
+        actionsAppBar:const [ 
+          Icon(Icons.notifications),
+          SizedBox(width: 10,),
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/images/default.jpg')
+          ),
+          SizedBox(width: 10,),
+        ],
         verticalScalePercent: 85.0,
         slidePercent : 50.0,
         screens: _pages, 
-        backgroundColorMenu: Color.fromARGB(255, 51, 182, 160)),
+        backgroundColorMenu: primaryColor),
     );
       
 
