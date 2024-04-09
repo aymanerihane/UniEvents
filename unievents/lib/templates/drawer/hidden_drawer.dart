@@ -23,9 +23,9 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
       ScreenHiddenDrawer(
         ItemHiddenMenu(
           name: "HOME",
-          baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
-          colorLineSelected: Colors.white,
-          selectedStyle: TextStyle(color: Colors.black),
+          baseStyle: TextStyle(color: Colors.blue.withOpacity(0.8), fontSize: 16.0),
+          colorLineSelected: Colors.blue,
+          selectedStyle: TextStyle(color: Colors.blue),
         ),
         HomePage()
       ),
