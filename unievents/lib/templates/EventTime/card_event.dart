@@ -23,7 +23,7 @@ class Card_Event extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.blue,
+              color: Color(0xFF2196F3),
             ),
             child: Container(
               margin: const EdgeInsets.all(8),
