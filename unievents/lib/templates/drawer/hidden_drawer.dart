@@ -23,20 +23,20 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
       ScreenHiddenDrawer(
         ItemHiddenMenu(
           name: "HOME",
-          baseStyle: TextStyle(color: Colors.blue.withOpacity(0.8), fontSize: 16.0),
-          colorLineSelected: Colors.blue,
-          selectedStyle: TextStyle(color: Colors.blue),
+          baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+          colorLineSelected: Colors.white,
+          selectedStyle: const TextStyle(color: Colors.black),
         ),
-        HomePage()
+        const HomePage()
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
           name: "EVENTS",
           baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
           colorLineSelected: Colors.white,
-          selectedStyle: TextStyle(color: Colors.black),
+          selectedStyle: const TextStyle(color: Colors.black),
         ),
-        Event_Time()
+        const Event_Time()
       ),
       
 
@@ -46,7 +46,7 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
             baseStyle:
                 TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
             colorLineSelected: Colors.white,
-            selectedStyle: TextStyle(color: Colors.black),
+            selectedStyle: const TextStyle(color: Colors.black),
           ),
           CardPage()),
     ];

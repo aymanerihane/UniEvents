@@ -16,7 +16,7 @@ class MyInput extends StatelessWidget {
         children: [
           Text(title, style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 63, 63, 63),fontFamily: "Poppins")),
           Container(
-            padding: EdgeInsets.only(left: 8.0 , right: 8.0,top: 5.0,bottom: 5.0),
+            padding: EdgeInsets.only(left: 8.0 , right: 8.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),

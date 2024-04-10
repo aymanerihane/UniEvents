@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unievents/templates/EventTime/MyButton.dart';
+import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/input.dart';
 import 'package:intl/intl.dart';
@@ -14,29 +14,83 @@ class Add_event extends StatefulWidget {
 
 class _Add_eventState extends State<Add_event> {
 
+  //controllers
+  final _eventTitle = TextEditingController();
+  final _eventDiscription = TextEditingController();
+  final _otherType = TextEditingController();
+
+  //Date and Time
   DateTime _selectedDate = DateTime.now();
   String _selectedStartTime = DateFormat('hh:mm a').format(DateTime.now());
-  String _selectedEndTime ='12:00 PM';
+  String _selectedEndTime = '12:00 PM';
+
+  //Reminder
   int _selectedReminder = 5;
-  List<int> remindList=[5,10,15,20,30,60];
+  List<int> remindList = [5, 10, 15, 20, 30, 60];
+
+  //Repeat
   String _selectedRepeat = "None";
-  List<String> repeatList = ["None","Daily","Weekly","Monthly","Yearly"];
+  List<String> repeatList = ["None", "Daily", "Weekly", "Monthly", "Yearly"];
+
+  //Color
   int _selectedColor = 0;
+
+  //Type
+  String _selectedType = "Attelier";
+  List<String> typeList = ["Attelier", "Evenement", "Metting", "Others"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: ListView(
-        children:[ Column(
+      body: ListView(children: [
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const MyInput(
+            MyInput(
+              controller: _eventTitle,
               hint: 'Enter Event Title',
               title: 'Event Title',
             ),
-            const MyInput(
+            MyInput(
+              controller: _eventDiscription,
               hint: 'add discriptiom',
               title: 'Event Description',
+            ),
+            MyInput(
+              title: 'Select Type',
+              hint: _selectedType,
+              widget: DropdownButton<String>(
+                icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                iconSize: 30,
+                elevation: 4,
+                underline: Container(
+                  height: 0.0,
+                ),
+                items: typeList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedType = value!;
+                  });
+                  if(value == 'others'){
+                    
+                  }
+                },
+              ),
+            ),
+            Visibility(
+              visible: _selectedType == 'Others',
+              child: 
+                MyInput(
+                  controller: _otherType,
+                  hint: 'Enter Type',
+                  title: 'Other Type',
+                ),
             ),
             MyInput(
               hint: DateFormat.yMd().format(_selectedDate),
@@ -50,7 +104,7 @@ class _Add_eventState extends State<Add_event> {
                     firstDate: DateTime(2024),
                     lastDate: DateTime(2030),
                   );
-                  if (picked != null && picked != _selectedDate){
+                  if (picked != null && picked != _selectedDate) {
                     setState(() {
                       _selectedDate = picked;
                     });
@@ -61,38 +115,39 @@ class _Add_eventState extends State<Add_event> {
             Row(
               children: [
                 Expanded(
-                  child: MyInput(
-                    title: 'Start Time', 
-                    hint: _selectedStartTime,
-                    widget: IconButton(
-                      icon: const Icon(Icons.access_time),
-                      onPressed: ()  {
-                        _selectTimePicker(true);
-                      },
-                    ),
-                    )
-                ),
-                Expanded(child: 
-                  MyInput(
-                    title: 'End Time', 
-                    hint: _selectedEndTime,
-                    widget: IconButton(
-                      icon: const Icon(Icons.access_time),
-                      onPressed: (){
-                        _selectTimePicker(false);
-                      },
-                    ),
-                  )  
-                ),
+                    child: MyInput(
+                  title: 'Start Time',
+                  hint: _selectedStartTime,
+                  widget: IconButton(
+                    icon: const Icon(Icons.access_time),
+                    onPressed: () {
+                      _selectTimePicker(true);
+                    },
+                  ),
+                )),
+                Expanded(
+                    child: MyInput(
+                  title: 'End Time',
+                  hint: _selectedEndTime,
+                  widget: IconButton(
+                    icon: const Icon(Icons.access_time),
+                    onPressed: () {
+                      _selectTimePicker(false);
+                    },
+                  ),
+                )),
               ],
             ),
-            MyInput(title: 'Select Reminder', hint: '$_selectedReminder minutes early',
-            widget:
-              DropdownButton<int>(
-                icon: const Icon(Icons.keyboard_arrow_down,color: Colors.grey),
+            MyInput(
+              title: 'Select Reminder',
+              hint: '$_selectedReminder minutes early',
+              widget: DropdownButton<int>(
+                icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
                 iconSize: 30,
-                elevation:4,
-                underline: Container(height: 0.0,),
+                elevation: 4,
+                underline: Container(
+                  height: 0.0,
+                ),
                 items: remindList.map<DropdownMenuItem<int>>((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
@@ -106,13 +161,16 @@ class _Add_eventState extends State<Add_event> {
                 },
               ),
             ),
-            MyInput(title: 'Repeat', hint: _selectedRepeat,
-            widget:
-              DropdownButton<String>(
-                icon: const Icon(Icons.keyboard_arrow_down,color: Colors.grey),
+            MyInput(
+              title: 'Repeat',
+              hint: _selectedRepeat,
+              widget: DropdownButton<String>(
+                icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
                 iconSize: 30,
-                elevation:4,
-                underline: Container(height: 0.0,),
+                elevation: 4,
+                underline: Container(
+                  height: 0.0,
+                ),
                 items: repeatList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -126,79 +184,88 @@ class _Add_eventState extends State<Add_event> {
                 },
               ),
             ),
-            
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10,bottom: 15),
+              margin: const EdgeInsets.only(
+                  left: 20, right: 20, bottom: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Color',style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 63, 63, 63),fontFamily: "Poppins")),
+                      const Text('Color',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 63, 63, 63),
+                              fontFamily: "Poppins")),
                       Wrap(
-              
-                        children: List<Widget>.generate(3, (index) => 
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                _selectedColor = index;
-                              });
-                            },
-                            
-                            child: Padding(
-                              padding: const EdgeInsets.only(right:10.0),
-                              child: CircleAvatar(
-                                radius: 14,
-                                backgroundColor: index == 0 ? Colors.blue : index == 1 ? Colors.red : primaryColor,
-                                child: _selectedColor==index ? Icon(Icons.check, color: Colors.white, size: 20,): Container(),
-                              ),
-                            ),
-                          )
-                        ),
+                        children: List<Widget>.generate(
+                            3,
+                            (index) => GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedColor = index;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: CircleAvatar(
+                                      radius: 14,
+                                      backgroundColor: index == 0
+                                          ? Colors.blue
+                                          : index == 1
+                                              ? Colors.red
+                                              : primaryColor,
+                                      child: _selectedColor == index ? const Icon(Icons.check,color: Colors.white,size: 20,) : Container(),
+                                    ),
+                                  ),
+                                )),
                       ),
                     ],
-              
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: MyButton(label: "Create Event", onTap: ()=>Get.back() , visibility: true))
+                      margin: const EdgeInsets.only(top: 20),
+                      child: MyButton(
+                          label: "Create Event",
+                          onTap: () => {Get.back(),
+                          Get.snackbar('Donne enregistrer', 'Title: ${_eventTitle.text}, discription: ${_eventDiscription.text}',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
+                          Get.snackbar('Event Created', 'Event has been created successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
+                          },
+                          visibility: true))
                 ],
               ),
             )
           ],
         ),
-      ]
-      ),
+      ]),
     );
   }
-  _selectTimePicker(bool is_start_time) async {
+
+  _selectTimePicker(bool isStart_time) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null){
-      if(is_start_time){
+    if (picked != null) {
+      if (isStart_time) {
         setState(() {
           _selectedStartTime = picked.format(context);
         });
-      }else{
+      } else {
         setState(() {
           _selectedEndTime = picked.format(context);
         });
-      
       }
     }
   }
 }
 
-
-_appBar(){
+_appBar() {
   return AppBar(
     leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
+      icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
       onPressed: () => Get.back(),
-    ), 
+    ),
     title: const Text('Add Event'),
     centerTitle: true,
   );
