@@ -39,7 +39,10 @@ dependencies:
   date_picker_timeline:
   cupertino_icons: ^1.0.2
   flutter_local_notifications:
-
+  file_picker:
+  open_app_file:
+  dio:
+  path_provider:
 
 
 dev_dependencies:

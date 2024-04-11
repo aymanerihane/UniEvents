@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/input.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_app_file/open_app_file.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart'; 
 
 class Add_event extends StatefulWidget {
   const Add_event({super.key});
@@ -39,6 +45,28 @@ class _Add_eventState extends State<Add_event> {
   String _selectedType = "Attelier";
   List<String> typeList = ["Attelier", "Evenement", "Metting", "Others"];
 
+
+  //file 
+  String _pathImage = 'default.jpg';
+  var fileByte = null;
+  PlatformFile? file ;
+  Future<void> picksinglefile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      file = result.files.single;
+      final pickedFile = File(file!.path!);
+      fileByte = await pickedFile.readAsBytes();
+      setState(() {
+        _pathImage = result.files.first.name.toString();
+      });
+    }
+        
+  }
+  var directory;
+  var path ;
+  var filePath ;
+  var localFile ;  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +85,22 @@ class _Add_eventState extends State<Add_event> {
               hint: 'add discriptiom',
               title: 'Event Description',
             ),
+            MyInput(title: 'Image', hint: _pathImage ,widget:ElevatedButton.icon(
+                    onPressed: (){
+                      picksinglefile();
+                      
+                      
+                      },
+                    
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color.fromARGB
+                            (255, 61, 186, 228))),
+                    icon: const Icon(Icons.insert_drive_file_sharp),
+                    label: const Text(
+                      'Pick File',
+                      style: TextStyle(fontSize: 25),
+                    )),),
             MyInput(
               title: 'Select Type',
               hint: _selectedType,
@@ -227,7 +271,25 @@ class _Add_eventState extends State<Add_event> {
                       margin: const EdgeInsets.only(top: 20),
                       child: MyButton(
                           label: "Create Event",
-                          onTap: () => {Get.back(),
+                          onTap: () async => {Get.back(),
+                          //file
+                          // Get the application documents directory
+                          if (file != null) {
+                          directory = await getApplicationDocumentsDirectory(),
+                          path = directory.path,
+                          filePath = '$path/${file!.name}',
+                          localFile = File(filePath),
+                          // Check if file.bytes is not null before using it
+                          if (fileByte != null) {
+                            await localFile.writeAsBytes(fileByte),
+                            print('File saved at $filePath'),
+                          } else {
+                            print('File bytes is null'),
+                          }
+                          } else {
+                            print('File is null'),
+                          },
+                          //snackbar 
                           Get.snackbar('Donne enregistrer', 'Title: ${_eventTitle.text}, discription: ${_eventDiscription.text}',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
                           Get.snackbar('Event Created', 'Event has been created successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
                           },

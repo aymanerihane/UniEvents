@@ -1,7 +1,9 @@
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/templates/EventTime/add_event.dart';
 import 'package:unievents/templates/EventTime/card_event.dart';
@@ -30,7 +32,12 @@ class _Event_TimeState extends State<Event_Time> {
           topEventTimePicker(),
           time_Picker(),
           SizedBox(height: 10,),
-          Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null),
+          GestureDetector(
+            onTap:() {
+              Get.to(const EventDescription());
+            },
+            child: Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null)
+          ),
           Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null),
           Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null),
           SizedBox(height: 20,),
