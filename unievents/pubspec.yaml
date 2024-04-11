@@ -34,7 +34,7 @@ dependencies:
   path:
   get:
   google_fonts: 
-  hidden_drawer_menu: 
+  hidden_drawer_menu: ^3.0.1
   intl:
   date_picker_timeline:
   cupertino_icons: ^1.0.2

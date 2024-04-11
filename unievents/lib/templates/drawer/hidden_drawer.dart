@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:unievents/templates/EventTime/event_time.dart';
+import 'package:unievents/templates/registration/loginScreen.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/card.dart';
 import '../homePage/homePage.dart';
@@ -14,7 +16,9 @@ class Hidden_Drawer extends StatefulWidget {
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
   List<ScreenHiddenDrawer> _pages = [];
-  List<Widget> _actions = [];
+  
+
+
 
   void initState() {
     super.initState();
@@ -49,6 +53,19 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
             selectedStyle: const TextStyle(color: Colors.black),
           ),
           CardPage()),
+      ScreenHiddenDrawer(
+          ItemHiddenMenu(
+            name: "Log out",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: primaryColor,
+            selectedStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+            onTap: () {
+                Get.to(LoginScreen());
+
+            },
+          ),
+          LoginScreen()),
     ];
   
   
