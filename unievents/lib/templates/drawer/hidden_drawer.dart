@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:unievents/templates/EventTime/event_time.dart';
-import 'package:unievents/templates/registration/loginScreen.dart';
+import 'package:unievents/templates/registration/LoginScreen.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/card.dart';
 import '../homePage/homePage.dart';
