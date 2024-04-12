@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unievents/templates/drawer/hidden_drawer.dart';
+import 'package:unievents/templates/registration/auth.dart';
 
 
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner:false,
-        home:  Hidden_Drawer(),
+        home:  AuthScreen(),
     );
   }
 }
