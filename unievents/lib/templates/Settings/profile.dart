@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unievents/wigets/input.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+  @override
+  State<Profile> createState() => _ProfileState();
+}
 
+class _ProfileState extends State<Profile> {
+//controllers
+  final _eventTitle = TextEditingController();
+  final _eventDiscription = TextEditingController();
+  final _otherType = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +38,16 @@ class Profile extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          MyInput(
+            controller: _eventTitle,
+            hint: 'Enter Event Title',
+            title: 'Event Title',
+          ),
+          MyInput(
+            controller: _eventDiscription,
+            hint: 'add discriptiom',
+            title: 'Event Description',
           ),
         ],
       ),
