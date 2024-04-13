@@ -8,6 +8,7 @@ import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/templates/EventTime/add_event.dart';
 import 'package:unievents/templates/EventTime/card_event.dart';
+import 'package:unievents/templates/Proposition/Propositions.dart';
 import 'package:unievents/themes/themes.dart';
 
 import '../../JSON/events.dart';
@@ -139,7 +140,7 @@ Widget topEventTimePicker() {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const MyButton(label: "proposition", onTap: null,visibility: true,),
+               MyButton(label: "proposition", onTap: ()=> Get.to(const Propositions()),visibility: true,),
               const SizedBox(width: 20,),
               MyButton(label: "+ add Event" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
             ],
