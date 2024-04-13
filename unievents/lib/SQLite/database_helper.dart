@@ -1,8 +1,8 @@
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../JSON/users.dart';
+import '../JSON/events.dart';
 
 
 class DatabaseHelper{
@@ -22,17 +22,38 @@ class DatabaseHelper{
    )
    ''';
 
+  String events = '''
+    CREATE TABLE events (
+    eventId INTEGER PRIMARY KEY AUTOINCREMENT,
+    eventName TEXT,
+    eventDescription TEXT,
+    eventType Text,
+    eventDate TEXT,
+    eventStartTime TEXT,
+    eventEndTime TEXT,
+    color TEXT,
+    eventImage TEXT
+    )
+  '''; 
+
   //Our connection is ready
   Future<Database> initDB ()async{
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path,version: 1 , onCreate: (db,version)async{
-      await db.execute(user);
-    });
+    return openDatabase(path, version: 3, onCreate: (db, version) async {
+  await db.execute(user);
+  await db.execute(events);
+}, onUpgrade: (db, oldVersion, newVersion) async {
+  if (oldVersion < 3) {
+    await db.execute('ALTER TABLE events ADD COLUMN eventType TEXT');
+  }
+});
   }
 
   //Function methods
+
+//user methodes 
 
   //Authentication
   Future<bool> authenticate(Users usr)async{
@@ -59,6 +80,57 @@ class DatabaseHelper{
     return res.isNotEmpty? Users.fromMap(res.first):null;
   }
 
+//events methodes (CRUD)
+  // Event Methods (CRUD)
+
+  Future<void> insertEvent(Event event) async {
+    final db = await initDB();
+    await db.insert(
+      'events',
+      event.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<Event>> getAllEvents() async {
+    final db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query('events');
+    return List.generate(maps.length, (i) {
+      return Event.fromMap(maps[i]);
+    });
+  }
+
+  Future<List<Event>> getEventsByDate(String date) async {
+    print('date: $date' );
+    final db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'events',
+      where: 'eventDate = ?',
+      whereArgs: [date],
+    );
+    return List.generate(maps.length, (i) {
+      return Event.fromMap(maps[i]);
+    });
+  }
+
+  Future<void> updateEvent(Event event) async {
+    final db = await initDB();
+    await db.update(
+      'events',
+      event.toMap(),
+      where: 'eventId = ?',
+      whereArgs: [event.eventId],
+    );
+  }
+
+  Future<void> deleteEvent(int id) async {
+    final db = await initDB();
+    await db.delete(
+      'events',
+      where: 'eventId = ?',
+      whereArgs: [id],
+    );
+  }
 
 
 

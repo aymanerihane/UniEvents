@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:unievents/wigets/MyButton.dart';
 
 class EventDescription extends StatefulWidget {
-  const EventDescription({super.key});
+  const EventDescription({super.key,});
 
   @override
   State<EventDescription> createState() => _EventDescriptionState();
@@ -16,10 +16,12 @@ class EventDescription extends StatefulWidget {
 
 class _EventDescriptionState extends State<EventDescription> {
   String? directoryPath;
+  var event;
 
   @override
   void initState() {
     super.initState();
+    event = Get.arguments;
     getDirectoryPath().then((path) {
       setState(() {
         directoryPath = path;
@@ -35,24 +37,25 @@ class _EventDescriptionState extends State<EventDescription> {
   @override
 Widget build(BuildContext context) {
   if (directoryPath != null) {
+    print(event.eventImage);
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(event.eventName),
       body: Stack(
         children: [
           
           ListView(
             padding: const EdgeInsets.only(top: 200), // same as the height of the image
-            children: const[
+            children: [
               Padding(
-                padding: EdgeInsets.only(right: 8.0 , left: 8.0, top: 8.0, bottom: 160),
+                padding: const EdgeInsets.only(right: 8.0 , left: 8.0, top: 8.0, bottom: 160),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Title",
+                    Text(event.eventName,
                         style:
                             TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                     Text(
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        event.eventDescription,
                         style:
                             TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
                         SizedBox(height: 40,),
@@ -67,7 +70,10 @@ Widget build(BuildContext context) {
           left: 0,
           right: 0,
             child: Image(
-              image: FileImage(File('$directoryPath/IMG_20240304_155726.jpg')),
+              image: FileImage(event.eventImage != null
+                  ? File('${event.eventImage}')
+                  : File('assets/images/placeholder.png'),
+              ),
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
@@ -83,13 +89,14 @@ Widget build(BuildContext context) {
   }
 }
 
-_appBar() {
+
+_appBar(String eventName) {
   return AppBar(
     leading: IconButton(
       icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
       onPressed: () => Get.back(),
     ),
-    title: const Text('Event Discription'),
+    title: Text(eventName),
     centerTitle: true,
   );
 }

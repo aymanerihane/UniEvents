@@ -2,14 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/input.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:open_app_file/open_app_file.dart';
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart'; 
+import 'package:path_provider/path_provider.dart';
+
+import '../../JSON/events.dart'; 
 
 class Add_event extends StatefulWidget {
   const Add_event({super.key});
@@ -151,6 +152,7 @@ class _Add_eventState extends State<Add_event> {
                   if (picked != null && picked != _selectedDate) {
                     setState(() {
                       _selectedDate = picked;
+                      
                     });
                   }
                 },
@@ -271,7 +273,7 @@ class _Add_eventState extends State<Add_event> {
                       margin: const EdgeInsets.only(top: 20),
                       child: MyButton(
                           label: "Create Event",
-                          onTap: () async => {Get.back(),
+                          onTap: () async => {
                           //file
                           // Get the application documents directory
                           if (file != null) {
@@ -292,6 +294,10 @@ class _Add_eventState extends State<Add_event> {
                           //snackbar 
                           Get.snackbar('Donne enregistrer', 'Title: ${_eventTitle.text}, discription: ${_eventDiscription.text}',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
                           Get.snackbar('Event Created', 'Event has been created successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
+                          print('event'),
+                          _addEvent(),
+                          print('event created'),
+                          Get.back(),
                           },
                           visibility: true))
                 ],
@@ -302,6 +308,38 @@ class _Add_eventState extends State<Add_event> {
       ]),
     );
   }
+  
+Future<void> _addEvent() async {
+
+    // Validate input
+    if (_eventTitle.text.isEmpty || _eventDiscription.text.isEmpty) {
+      //erreur message
+      _eventTitle.text.isEmpty ? Get.snackbar('Error', 'Please enter event title') : Get.snackbar('Error', 'Please enter event description');
+      
+      return;
+    }
+
+    // Create an Event object
+    Event event = Event(
+      eventName: _eventTitle.text,
+      eventDescription: _eventDiscription.text,
+      eventType: _otherType.text.trim() == '' ? _selectedType : _otherType.text,
+      eventDate: DateFormat('yMMMMd').format(_selectedDate),
+      eventStartTime: _selectedStartTime,
+      eventEndTime: _selectedEndTime,
+      color: _selectedColor == 0 ? '0xFF0000FF' : _selectedColor == 1 ? '0xFFFF0000' : '0xFF00FF00',
+      eventImage: filePath,
+      // Set other event details
+    );
+
+    // Insert the event into the database
+    await DatabaseHelper().insertEvent(event);
+
+    // Navigate back to the previous page
+    Navigator.pop(context);
+  }
+
+  
 
   _selectTimePicker(bool isStart_time) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -320,6 +358,15 @@ class _Add_eventState extends State<Add_event> {
       }
     }
   }
+  @override
+  void dispose() {
+    _otherType.dispose();
+    _eventTitle.dispose();
+    _eventDiscription.dispose();
+    // Dispose other controllers
+    super.dispose();
+  }
+
 }
 
 _appBar() {
@@ -332,3 +379,4 @@ _appBar() {
     centerTitle: true,
   );
 }
+

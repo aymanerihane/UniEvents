@@ -6,8 +6,9 @@ class Card_Event extends StatelessWidget {
   final String discription;
   final String type;
   final String date;
+  final String colore;
   final Function()? onTap;
-  const Card_Event({super.key, required this.label, required this.onTap, required this.discription, required this.type, required this.date});
+  const Card_Event({super.key, required this.label, required this.onTap, required this.discription, required this.type, required this.date, required this.colore});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class Card_Event extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Color(0xFF2196F3),
+              color: Color(int.parse(colore)),
             ),
             child: Container(
               margin: const EdgeInsets.all(8),

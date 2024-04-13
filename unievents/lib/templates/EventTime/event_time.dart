@@ -3,11 +3,14 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/templates/EventTime/add_event.dart';
 import 'package:unievents/templates/EventTime/card_event.dart';
 import 'package:unievents/themes/themes.dart';
+
+import '../../JSON/events.dart';
 
 
 class Event_Time extends StatefulWidget {
@@ -31,17 +34,38 @@ class _Event_TimeState extends State<Event_Time> {
         children: [
           topEventTimePicker(),
           time_Picker(),
-          SizedBox(height: 10,),
-          GestureDetector(
-            onTap:() {
-              Get.to(const EventDescription());
-            },
-            child: Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null)
-          ),
-          Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null),
-          Card_Event(label: "Event Title",discription: "klsajdkasdkasdn as skld  jsad fj sdajf  jsadf ljds a askdfj sdkf js kdjf ds fj lksd jfk sdjf lksjd fls lk jasdl kjsld fjd ljksdl j dksljf lksdjf  ñsaldkfj slda fkj",type:"Attelier",date:testTime, onTap: null),
-          SizedBox(height: 20,),
-      
+          FutureBuilder<List<Event>>(
+              future: DatabaseHelper().getEventsByDate(selectedDate),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  List<Event>? events = snapshot.data;
+                  if (events != null && events.isNotEmpty) {
+                    return Column(
+                      children: events.map((event) {
+                        return GestureDetector(
+                          
+                          child: Card_Event(
+                            label: event.eventName,
+                            discription: event.eventDescription,
+                            type: event.eventType,
+                            date: event.eventDate,
+                            colore: event.color,
+                            onTap: ()=>navigateToEventDetails(event),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(child: Text('No events found.'));
+                  }
+                }
+              },
+            ),
+            SizedBox(height: 20,),
         ],
       ),
       ]
@@ -72,6 +96,7 @@ Widget time_Picker(){
                   selectedDay = day;
 
                 selectedDate = DateFormat('yMMMMd').format(date);
+                print(selectedDate);
               });
             },
           ),
@@ -123,4 +148,8 @@ Widget topEventTimePicker() {
       ],
     );
   }
+}
+
+void navigateToEventDetails(Event event){
+  Get.to(const EventDescription(), arguments: event);
 }
