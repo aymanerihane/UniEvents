@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:unievents/templates/EventTime/event_time.dart';
 import 'package:unievents/templates/registration/auth.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/card.dart';
+import 'package:unievents/templates/Settings/profile.dart';
 import '../homePage/homePage.dart';
 
 class Hidden_Drawer extends StatefulWidget {
@@ -16,34 +18,29 @@ class Hidden_Drawer extends StatefulWidget {
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
   List<ScreenHiddenDrawer> _pages = [];
-  
-
-
 
   void initState() {
     super.initState();
 
     _pages = [
       ScreenHiddenDrawer(
-        ItemHiddenMenu(
-          name: "HOME",
-          baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
-          colorLineSelected: Colors.white,
-          selectedStyle: const TextStyle(color: Colors.black),
-        ),
-        const HomePage()
-      ),
+          ItemHiddenMenu(
+            name: "HOME",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: Colors.white,
+            selectedStyle: const TextStyle(color: Colors.black),
+          ),
+          const HomePage()),
       ScreenHiddenDrawer(
-        ItemHiddenMenu(
-          name: "EVENTS",
-          baseStyle: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
-          colorLineSelected: Colors.white,
-          selectedStyle: const TextStyle(color: Colors.black),
-        ),
-        const Event_Time()
-      ),
-      
-
+          ItemHiddenMenu(
+            name: "EVENTS",
+            baseStyle:
+                TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
+            colorLineSelected: Colors.white,
+            selectedStyle: const TextStyle(color: Colors.black),
+          ),
+          const Event_Time()),
       ScreenHiddenDrawer(
           ItemHiddenMenu(
             name: "Cadrs",
@@ -61,39 +58,38 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
             colorLineSelected: primaryColor,
             selectedStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
             onTap: () {
-                Get.to( const AuthScreen());
-
+              Get.to(const AuthScreen());
             },
           ),
-            const AuthScreen()),
+          const AuthScreen()),
     ];
-  
-  
-}
-
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: HiddenDrawerMenu(
-        elevationAppBar: 0,
-        backgroundColorAppBar: primaryColor,
-        backgroundColorContent: Colors.white,
-        
-        actionsAppBar:const [ 
-          Icon(Icons.notifications),
-          SizedBox(width: 10,),
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/images/default.jpg')
-          ),
-          SizedBox(width: 10,),
-        ],
-        verticalScalePercent: 85.0,
-        slidePercent : 50.0,
-        screens: _pages, 
-        backgroundColorMenu: primaryColor),
+          elevationAppBar: 0,
+          backgroundColorAppBar: primaryColor,
+          backgroundColorContent: Colors.white,
+          actionsAppBar: [
+            Icon(Icons.notifications),
+            SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () => Get.to(const Profile()),
+              child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/default.jpg')),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+          verticalScalePercent: 85.0,
+          slidePercent: 50.0,
+          screens: _pages,
+          backgroundColorMenu: primaryColor),
     );
-      
-
   }
 }
