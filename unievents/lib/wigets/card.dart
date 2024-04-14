@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unievents/themes/themes.dart';
 
 class CardPage extends StatelessWidget {
   const CardPage({super.key});
@@ -38,7 +39,7 @@ class MyContainer extends StatelessWidget {
               width: 380,
               height: 150,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: secondaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -56,7 +57,7 @@ class MyContainer extends StatelessWidget {
                                   height: 51,
                                   padding: EdgeInsets.all(5.0),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue,
+                                    color: secondaryColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -89,7 +90,7 @@ class MyContainer extends StatelessWidget {
                                 height: 99,
                                 padding: EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
