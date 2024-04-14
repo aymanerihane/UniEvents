@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_widget_cache.dart';
-import 'package:unievents/themes/themes.dart';
+
+
 
 class Propositions extends StatelessWidget{
 
@@ -74,12 +74,13 @@ const Propositions({super.key});
                        Container(
                           width:300 ,
                           height: 100,
+                          padding: EdgeInsets.only(left: 2.0),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                              borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                          'Event Title ,  Type of Event',
+                          'Description: hjvjhvmabshvjhavmn jhavjdhvasmdnabshbkajbsmdnabmsn bmahbsdkabmsnbdmasbdmahbsmda',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,

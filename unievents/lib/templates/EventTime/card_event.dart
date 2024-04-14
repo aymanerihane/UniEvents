@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unievents/themes/themes.dart';
+
 
 class Card_Event extends StatelessWidget {
   final String label;
