@@ -36,8 +36,8 @@ const Propositions({super.key});
                   children: [
                     Container(
                       width: 300,
-                      height: 50,
-                      padding: EdgeInsets.only(left: 4.0),
+                      height: 51,
+                      padding: EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
                         color: Colors.blue,
                          borderRadius: BorderRadius.circular(10),      
@@ -73,8 +73,8 @@ const Propositions({super.key});
                     children: [
                        Container(
                           width:300 ,
-                          height: 100,
-                          padding: EdgeInsets.only(left: 2.0),
+                          height: 99,
+                          padding: EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                              borderRadius: BorderRadius.circular(10),
