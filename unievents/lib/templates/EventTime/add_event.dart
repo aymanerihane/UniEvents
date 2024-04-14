@@ -40,7 +40,7 @@ class _Add_eventState extends State<Add_event> {
   List<String> repeatList = ["None", "Daily", "Weekly", "Monthly", "Yearly"];
 
   //Color
-  int _selectedColor = 0;
+  Color _selectedColor = eventColor1;
 
   //Type
   String _selectedType = "Attelier";
@@ -250,7 +250,7 @@ class _Add_eventState extends State<Add_event> {
                             (index) => GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      _selectedColor = index;
+                                      _selectedColor = index == 0 ? eventColor1 : index == 1 ? eventColor2 : eventColor3;
                                     });
                                   },
                                   child: Padding(
@@ -258,10 +258,10 @@ class _Add_eventState extends State<Add_event> {
                                     child: CircleAvatar(
                                       radius: 14,
                                       backgroundColor: index == 0
-                                          ? Colors.blue
+                                          ? eventColor1
                                           : index == 1
-                                              ? Colors.red
-                                              : primaryColor,
+                                              ? eventColor2
+                                              : eventColor3,
                                       child: _selectedColor == index ? const Icon(Icons.check,color: Colors.white,size: 20,) : Container(),
                                     ),
                                   ),
