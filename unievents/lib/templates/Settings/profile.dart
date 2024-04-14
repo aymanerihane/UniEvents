@@ -19,35 +19,39 @@ class _ProfileState extends State<Profile> {
       appBar: _appBar(),
       body: Column(
         children: [
-          const Expanded(flex: 2, child: _TopPortion()),
+          const Expanded(flex: 1, child: _TopPortion()),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Text(
-                    "testoo",
+                    "testo",
                     style: Theme.of(context)
                         .textTheme
                         .headline6
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  const SizedBox(height: 16),
+                  MyInput(
+                    controller: _eventTitle,
+                    hint: 'Username',
+                    title: 'Username',
+                  ),
+                  MyInput(
+                    controller: _eventTitle,
+                    hint: 'Enter Event Title',
+                    title: 'Email',
+                  ),
+                  MyInput(
+                    controller: _eventTitle,
+                    hint: 'Enter Event Title',
+                    title: 'Paassword',
+                  ),
                 ],
               ),
             ),
-          ),
-          MyInput(
-            controller: _eventTitle,
-            hint: 'Enter Event Title',
-            title: 'Event Title',
-          ),
-          MyInput(
-            controller: _eventDiscription,
-            hint: 'add discriptiom',
-            title: 'Event Description',
           ),
         ],
       ),
@@ -64,7 +68,7 @@ class _TopPortion extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 100),
+          margin: const EdgeInsets.only(bottom: 50),
           decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -80,14 +84,19 @@ class _TopPortion extends StatelessWidget {
           child: SizedBox(
             width: 150,
             height: 150,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/images/default.jpg')),
-              ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/images/default.jpg')),
+                  ),
+                ),
+              ],
             ),
           ),
         )
