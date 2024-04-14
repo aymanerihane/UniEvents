@@ -16,11 +16,12 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _appBar(),
       body: Column(
         children: [
           const Expanded(flex: 1, child: _TopPortion()),
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
