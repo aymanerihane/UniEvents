@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_widget_cache.dart';
+import 'package:unievents/themes/themes.dart';
 
 class Propositions extends StatelessWidget{
 
@@ -20,8 +21,8 @@ const Propositions({super.key});
            width: 380,
             height: 150,
             decoration: BoxDecoration(
-              color: Colors.amber,
-
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
                mainAxisAlignment: MainAxisAlignment.start,
@@ -35,11 +36,36 @@ const Propositions({super.key});
                   children: [
                     Container(
                       width: 300,
-                      height: 30,
+                      height: 50,
+                      padding: EdgeInsets.only(left: 4.0),
                       decoration: BoxDecoration(
-                        color: Colors.black
-                        
+                        color: Colors.blue,
+                         borderRadius: BorderRadius.circular(10),      
                         ),
+                        child: Column(
+                          children: [
+                            Text(
+                          'Event Title ,  Type of Event',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                         Row(
+                          children:[ 
+                            Icon(Icons.timelapse_rounded),
+                            Text(
+                              '13/04/2024 12:00',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ]
+                        ),
+                          ],
+                        )
+                         
                     )
                   ],
                   ),
@@ -47,10 +73,19 @@ const Propositions({super.key});
                     children: [
                        Container(
                           width:300 ,
-                          height: 120,
+                          height: 100,
                           decoration: BoxDecoration(
-                            color: Colors.blue
-                          ), 
+                            color: Colors.blue,
+                             borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                          'Event Title ,  Type of Event',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                          
                         ),
                        
                     ],
@@ -58,15 +93,48 @@ const Propositions({super.key});
                  
                       ],
                     ),
+                   
                     Container(
-                      width: 80,
+                       width: 80,
                       height: 150,
                       decoration: BoxDecoration(
-                        color: Colors.brown
+                        color: Colors.blue,
+                         borderRadius: BorderRadius.circular(10),
                       ),
+                     child:  Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                             const VerticalDivider(
+                                color: Colors.white,
+                                thickness: 1,
+                                width: 10,
+                                endIndent: 20,
+                                indent: 20,
+                              ),
+                               SizedBox(width: 12),
+                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              Icon(
+                              Icons.delete_forever,                          
+                              size: 45.0,
+                              ),
+                               SizedBox(width: 20),
+                            Icon(
+                              Icons.check,
+                              size: 45.0,
+                              ),
 
-                    )
 
+                          ],
+
+                        )
+                        ],
+                        ),
+                     
+                      
+                    ),
+                    
                   ],
                 ),
 

@@ -79,7 +79,6 @@ class Card_Event extends StatelessWidget {
                     width: 10,
                     endIndent: 20,
                     indent: 20,
-
                   ),
                   Container(
                       child: Transform.rotate(
