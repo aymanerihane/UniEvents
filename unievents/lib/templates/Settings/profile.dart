@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unievents/wigets/input.dart';
+import 'package:unievents/wigets/MyButton.dart';
+import 'package:unievents/themes/themes.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -33,7 +35,6 @@ class _ProfileState extends State<Profile> {
                         .headline6
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 10),
                   MyInput(
                     controller: _eventTitle,
                     hint: 'Username',
@@ -48,6 +49,11 @@ class _ProfileState extends State<Profile> {
                     controller: _eventTitle,
                     hint: 'Enter Event Title',
                     title: 'Paassword',
+                  ),
+                  MyButton(
+                    label: "Save",
+                    onTap: null,
+                    visibility: true,
                   ),
                 ],
               ),
@@ -73,7 +79,7 @@ class _TopPortion extends StatelessWidget {
               gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Color(0xff0043ba), Color(0xff006df1)]),
+                  colors: [secondaryColor, Color.fromARGB(255, 152, 238, 218)]),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(50),
                 bottomRight: Radius.circular(50),
