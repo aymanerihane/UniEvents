@@ -10,6 +10,8 @@ class Card_Event extends StatelessWidget {
   final Function()? onTap;
   const Card_Event({super.key, required this.label, required this.onTap, required this.discription, required this.type, required this.date, required this.colore});
 
+  
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -22,7 +24,6 @@ class Card_Event extends StatelessWidget {
           onTap: onTap,
           child: Container(
             width: width*0.9,
-            height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: colore,
@@ -32,7 +33,7 @@ class Card_Event extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: width*0.7,
+                    width: width*0.66,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

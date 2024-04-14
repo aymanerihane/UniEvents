@@ -27,6 +27,7 @@ class _Event_TimeState extends State<Event_Time> {
   String selectedDate = DateFormat('yMMMMd').format(DateTime.now());
   List<String> daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   String selectedDay = 'Today';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +50,13 @@ class _Event_TimeState extends State<Event_Time> {
                       children: events.map((event) {
                         return GestureDetector(
                           
+                          
                           child: Card_Event(
                             label: event.eventName,
                             discription: event.eventDescription,
                             type: event.eventType,
                             date: event.eventDate,
-                            colore: Color(int.parse(event.color)),
+                            colore: event.color == 0 ? event.color == 1 ? eventColor1: eventColor2 : eventColor3, // Parse and create color,
                             onTap: ()=>navigateToEventDetails(event),
                           ),
                         );
@@ -91,7 +93,8 @@ Widget time_Picker(){
 
               setState(() {
                 var day= daysOfWeek[date.weekday - 1];
-                if (date.weekday == DateTime.now().weekday)
+                print(DateFormat.yMd().format(date));
+                if (date == DateTime.now())
                   selectedDay = 'Today';
                 else
                   selectedDay = day;

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -31,7 +32,11 @@ class DatabaseHelper{
     eventDate TEXT,
     eventStartTime TEXT,
     eventEndTime TEXT,
-    color TEXT,
+    repeat TEXT,
+    dayOfWeek INTEGER,
+    dayOfMonth INTEGER,
+    month INTEGER,
+    color INTEGER,
     eventImage TEXT
     )
   '''; 
@@ -41,12 +46,28 @@ class DatabaseHelper{
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 3, onCreate: (db, version) async {
+    return openDatabase(path, version: 8, onCreate: (db, version) async {
   await db.execute(user);
   await db.execute(events);
 }, onUpgrade: (db, oldVersion, newVersion) async {
-  if (oldVersion < 3) {
-    await db.execute('ALTER TABLE events ADD COLUMN eventType TEXT');
+  if( oldVersion < 4){
+    await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+
+  }
+  if( oldVersion < 5){
+    await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+  }
+  if( oldVersion < 6){
+    await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
+    await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+  }
+  if (oldVersion < 7){
+    await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
+  }
+  if (oldVersion < 8){
+    await db.execute('DROP TABLE IF EXISTS events');
+    await db.execute(events);
+    
   }
 });
   }
@@ -101,13 +122,32 @@ class DatabaseHelper{
   }
 
   Future<List<Event>> getEventsByDate(String date) async {
-    print('date: $date' );
-    final db = await initDB();
-    final List<Map<String, dynamic>> maps = await db.query(
-      'events',
-      where: 'eventDate = ?',
-      whereArgs: [date],
-    );
+    print('date: $date');
+  final db = await initDB();
+
+  // Convert date string to DateTime
+  DateFormat inputFormat = DateFormat('MMMM dd, yyyy');
+  // DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+  DateTime d = inputFormat.parse(date);
+  // String formattedDate = outputFormat.format(d);
+
+  // Get the day of the week and day of the month of the selected date
+  int dayOfWeek = d.weekday;
+  int dayOfMonth = d.day;
+  int month = d.month;
+
+
+  // Fetch events from the database
+  final List<Map<String, dynamic>> maps = await db.rawQuery(
+    "SELECT * FROM events WHERE (eventDate <= ? AND (eventDate = ? OR repeat = 'Daily' OR (repeat = 'Weekly' AND dayOfWeek = ?) OR (repeat = 'Monthly' AND dayOfMonth = ?) OR (repeat = 'Yearly' AND month = ? AND dayOfMonth = ?)))",
+    [date, date, dayOfWeek, dayOfMonth, month, dayOfMonth]
+  );
+
+    // final List<Map<String, dynamic>> maps = await db.query(
+    //   'events',
+    //   where: 'eventDate = ?',
+    //   whereArgs: [date],
+    // );
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
     });

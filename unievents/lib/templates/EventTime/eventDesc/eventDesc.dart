@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // import 'package:open_app_file/open_app_file.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:unievents/wigets/MyButton.dart';
+// import 'package:unievents/wigets/MyButton.dart';
 
 class EventDescription extends StatefulWidget {
   const EventDescription({super.key,});
@@ -59,7 +59,7 @@ Widget build(BuildContext context) {
                         style:
                             TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
                         SizedBox(height: 40,),
-                        Center(child: MyButton(label: "Participate", onTap: null, visibility: true))
+                        // Center(child: MyButton(label: "Participate", onTap: null, visibility: true))
                   ],
                 ),
               ),
@@ -70,10 +70,7 @@ Widget build(BuildContext context) {
           left: 0,
           right: 0,
             child: Image(
-              image: FileImage(event.eventImage != null
-                  ? File('${event.eventImage}')
-                  : File('assets/images/placeholder.png'),
-              ),
+              image: FileImage(File('$directoryPath/${event.eventImage}')),
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,

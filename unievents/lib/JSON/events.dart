@@ -6,7 +6,11 @@ class Event {
   String eventDate;
   String eventStartTime;
   String eventEndTime;
-  String color;
+  int color;
+  String repeat;
+  int dayOfWeek;
+  int dayOfMonth;
+  int month;
   String? eventImage;
 
   Event({
@@ -18,7 +22,11 @@ class Event {
     required this.eventStartTime,
     required this.eventEndTime,
     required this.color,
-    this.eventImage,
+    required this.repeat,
+    required this.dayOfWeek,
+    required this.dayOfMonth,
+    required this.month,
+    required this.eventImage,
   });
 
   // Convert Event object to Map object
@@ -32,6 +40,10 @@ class Event {
       'eventStartTime': eventStartTime,
       'eventEndTime': eventEndTime,
       'color': color,
+      'repeat': repeat,
+      'dayOfWeek': dayOfWeek,
+      'dayOfMonth': dayOfMonth,
+      'month': month,
       'eventImage': eventImage,
     };
   }
@@ -47,6 +59,10 @@ class Event {
       eventStartTime: map['eventStartTime'],
       eventEndTime: map['eventEndTime'],
       color: map['color'],
+      repeat: map['repeat'],
+      dayOfWeek: map['dayOfWeek'],
+      dayOfMonth: map['dayOfMonth'],
+      month: map['month'],
       eventImage: map['eventImage'],
     );
   }

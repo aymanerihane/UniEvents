@@ -30,6 +30,10 @@ class _Add_eventState extends State<Add_event> {
   DateTime _selectedDate = DateTime.now();
   String _selectedStartTime = DateFormat('hh:mm a').format(DateTime.now());
   String _selectedEndTime = '12:00 PM';
+  int _dayOfWeek = DateTime.now().weekday;
+  int _dayOfMonth = DateTime.now().day;
+  int _month = DateTime.now().month;
+
 
   //Reminder
   int _selectedReminder = 5;
@@ -40,7 +44,7 @@ class _Add_eventState extends State<Add_event> {
   List<String> repeatList = ["None", "Daily", "Weekly", "Monthly", "Yearly"];
 
   //Color
-  Color _selectedColor = eventColor1;
+  int _colorindex = 0;
 
   //Type
   String _selectedType = "Attelier";
@@ -79,14 +83,14 @@ class _Add_eventState extends State<Add_event> {
             MyInput(
               controller: _eventTitle,
               hint: 'Enter Event Title',
-              title: 'Event Title',
+              title: 'Event Title *',
             ),
             MyInput(
               controller: _eventDiscription,
               hint: 'add discriptiom',
-              title: 'Event Description',
+              title: 'Event Description *',
             ),
-            MyInput(title: 'Image', hint: _pathImage ,widget:ElevatedButton.icon(
+            MyInput(title: 'Cover *', hint: _pathImage ,widget:ElevatedButton.icon(
                     onPressed: (){
                       picksinglefile();
                       
@@ -122,9 +126,6 @@ class _Add_eventState extends State<Add_event> {
                   setState(() {
                     _selectedType = value!;
                   });
-                  if(value == 'others'){
-                    
-                  }
                 },
               ),
             ),
@@ -134,7 +135,7 @@ class _Add_eventState extends State<Add_event> {
                 MyInput(
                   controller: _otherType,
                   hint: 'Enter Type',
-                  title: 'Other Type',
+                  title: 'Other Type *',
                 ),
             ),
             MyInput(
@@ -152,6 +153,9 @@ class _Add_eventState extends State<Add_event> {
                   if (picked != null && picked != _selectedDate) {
                     setState(() {
                       _selectedDate = picked;
+                      _dayOfWeek = picked.weekday;
+                      _dayOfMonth = picked.day;
+                      _month =picked.month;
                       
                     });
                   }
@@ -250,7 +254,8 @@ class _Add_eventState extends State<Add_event> {
                             (index) => GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      _selectedColor = index == 0 ? eventColor1 : index == 1 ? eventColor2 : eventColor3;
+                                      
+                                       _colorindex = index;
                                     });
                                   },
                                   child: Padding(
@@ -262,7 +267,8 @@ class _Add_eventState extends State<Add_event> {
                                           : index == 1
                                               ? eventColor2
                                               : eventColor3,
-                                      child: _selectedColor == index ? const Icon(Icons.check,color: Colors.white,size: 20,) : Container(),
+                                         
+                                      child: _colorindex == index ? const Icon(Icons.check,color: Colors.black,size: 20,) : Container(),
                                     ),
                                   ),
                                 )),
@@ -274,6 +280,8 @@ class _Add_eventState extends State<Add_event> {
                       child: MyButton(
                           label: "Create Event",
                           onTap: () async => {
+
+
                           //file
                           // Get the application documents directory
                           if (file != null) {
@@ -281,6 +289,8 @@ class _Add_eventState extends State<Add_event> {
                           path = directory.path,
                           filePath = '$path/${file!.name}',
                           localFile = File(filePath),
+
+
                           // Check if file.bytes is not null before using it
                           if (fileByte != null) {
                             await localFile.writeAsBytes(fileByte),
@@ -291,13 +301,26 @@ class _Add_eventState extends State<Add_event> {
                           } else {
                             print('File is null'),
                           },
-                          //snackbar 
-                          Get.snackbar('Donne enregistrer', 'Title: ${_eventTitle.text}, discription: ${_eventDiscription.text}',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
+
+                          // Validate input
+                          if (_eventTitle.text.isEmpty || _eventDiscription.text.isEmpty || file == null || (_selectedType == 'others' && _otherType.text.isEmpty)) {
+                            //erreur message
+                            Get.snackbar('Erreur', 'Veuillez remplir tous les champs avec une *',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.redAccent),
+                            
+                            
+
+                          }else{
+                            // Show a snackbar
                           Get.snackbar('Event Created', 'Event has been created successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
                           print('event'),
+                          
                           _addEvent(),
                           print('event created'),
                           Get.back(),
+
+                          }
+
+                          
                           },
                           visibility: true))
                 ],
@@ -311,13 +334,9 @@ class _Add_eventState extends State<Add_event> {
   
 Future<void> _addEvent() async {
 
-    // Validate input
-    if (_eventTitle.text.isEmpty || _eventDiscription.text.isEmpty) {
-      //erreur message
-      _eventTitle.text.isEmpty ? Get.snackbar('Error', 'Please enter event title') : Get.snackbar('Error', 'Please enter event description');
-      
-      return;
-    }
+    
+
+
 
     // Create an Event object
     Event event = Event(
@@ -327,7 +346,11 @@ Future<void> _addEvent() async {
       eventDate: DateFormat('yMMMMd').format(_selectedDate),
       eventStartTime: _selectedStartTime,
       eventEndTime: _selectedEndTime,
-      color: _selectedColor == 0 ? '0xFF0000FF' : _selectedColor == 1 ? '0xFFFF0000' : '0xFF00FF00',
+      repeat: _selectedRepeat,
+      dayOfWeek: _dayOfWeek,
+      dayOfMonth: _dayOfMonth,
+      month: _month,
+      color: _colorindex,
       eventImage: filePath,
       // Set other event details
     );
