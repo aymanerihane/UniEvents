@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unievents/templates/Proposition/Proposition%20description.dart';
 
 
 
@@ -16,7 +17,10 @@ const Propositions({super.key});
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-          Container(
+              GestureDetector(
+                onTap:  ()=> Get.to( PropositionDesc(heroTag:0 )),
+              
+           child:  Container(
             margin: EdgeInsets.fromLTRB(15.0,70.0 ,5.0,20.0),
            width: 380,
             height: 150,
@@ -112,19 +116,21 @@ const Propositions({super.key});
                                 endIndent: 20,
                                 indent: 20,
                               ),
-                               SizedBox(width: 12),
+                               SizedBox(width: 9),
                              Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                              Icon(
-                              Icons.delete_forever,                          
-                              size: 45.0,
+                             IconButton(
+                                icon: const Icon(Icons.delete_forever, color: Colors.red),
+                                iconSize: 45.0,
+                                onPressed: () => Get.back(),
                               ),
                                SizedBox(width: 20),
-                            Icon(
-                              Icons.check,
-                              size: 45.0,
-                              ),
+                           IconButton(
+                              icon: const Icon(Icons.check_box, color: Colors.green),
+                              iconSize: 45.0,
+                              onPressed: () => Get.back(),
+                            ),
 
 
                           ],
@@ -142,8 +148,9 @@ const Propositions({super.key});
                 
               ],
             ),
-          )
-          ]
+          ),
+        ),
+          ],
           ) 
          
         ],
