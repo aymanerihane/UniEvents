@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart'; // Import Provider
 import 'package:unievents/wigets/input.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
+import 'package:unievents/SQLite/database_helper.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
+
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-//controllers
   final _eventTitle = TextEditingController();
   final _eventDiscription = TextEditingController();
   final _otherType = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    // Retrieve the current user from the DatabaseHelper using Provider
+    final auth = Provider.of<DatabaseHelper>(context);
+    
+    // Check if currentUser is not null, else display 'Guest'
+    final currentUser = auth.currentUser;
+    final username = currentUser != null ? currentUser.usrName : 'Guest';
+
     return Scaffold(
       appBar: _appBar(),
       body: Column(
@@ -29,7 +39,7 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 children: [
                   Text(
-                    "testo",
+                    username, // Display the username
                     style: Theme.of(context)
                         .textTheme
                         .headline6
@@ -48,7 +58,7 @@ class _ProfileState extends State<Profile> {
                   MyInput(
                     controller: _eventTitle,
                     hint: 'Enter Event Title',
-                    title: 'Paassword',
+                    title: 'Password',
                   ),
                   MyButton(
                     label: "Save",
@@ -65,6 +75,7 @@ class _ProfileState extends State<Profile> {
   }
 }
 
+
 class _TopPortion extends StatelessWidget {
   const _TopPortion({Key? key}) : super(key: key);
 
@@ -76,14 +87,16 @@ class _TopPortion extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(bottom: 50),
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [secondaryColor, Color.fromARGB(255, 152, 238, 218)]),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                bottomRight: Radius.circular(50),
-              )),
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [secondaryColor, Color.fromARGB(255, 152, 238, 218)],
+            ),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50),
+            ),
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -98,20 +111,21 @@ class _TopPortion extends StatelessWidget {
                     color: Colors.black,
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/default.jpg')),
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/default.jpg'),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
 }
 
-_appBar() {
+AppBar _appBar() {
   return AppBar(
     leading: IconButton(
       icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
