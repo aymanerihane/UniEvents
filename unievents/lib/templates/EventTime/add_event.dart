@@ -40,8 +40,6 @@ class _Add_eventState extends State<Add_event> {
 
 
   //Reminder
-  int _selectedReminder = 5;
-  List<int> remindList = [5, 10, 15, 20, 30, 60];
 
   //Repeat
   String _selectedRepeat = "None";
@@ -192,29 +190,7 @@ class _Add_eventState extends State<Add_event> {
                 )),
               ],
             ),
-            MyInput(
-              title: 'Select Reminder',
-              hint: '$_selectedReminder minutes early',
-              widget: DropdownButton<int>(
-                icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                iconSize: 30,
-                elevation: 4,
-                underline: Container(
-                  height: 0.0,
-                ),
-                items: remindList.map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-                onChanged: (int? value) {
-                  setState(() {
-                    _selectedReminder = value!;
-                  });
-                },
-              ),
-            ),
+            
             MyInput(
               title: 'Repeat',
               hint: _selectedRepeat,

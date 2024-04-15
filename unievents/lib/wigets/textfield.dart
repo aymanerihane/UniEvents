@@ -1,7 +1,6 @@
 //Our custom textfield
 
 import 'package:flutter/material.dart';
-import 'package:unievents/themes/themes.dart';
 
 class InputField extends StatelessWidget {
   final String hint;

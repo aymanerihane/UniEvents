@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../wigets/button.dart';
-import '../../themes/themes.dart';
 import 'login.dart';
 import 'signup.dart';
 

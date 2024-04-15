@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,6 +23,8 @@ class _SecondPageState extends State<SecondPage> {
   var event;
   var userEvent;
   var db = DatabaseHelper();
+  var isParticipating;
+  late final currentUser;
   
 
   Future<String> getDirectoryPath() async {
@@ -35,15 +38,22 @@ class _SecondPageState extends State<SecondPage> {
     super.initState();
     event = Get.arguments;
     userEvent = Get.arguments;
+    checkParticipation();
     getDirectoryPath().then((path) {
       setState(() {
         directoryPath = path;
       });
     });
   }
+  Future<void> checkParticipation() async {
+    currentUser = UserController().currentUser;
+    bool participationStatus = await db.checkIFParticipe(currentUser.usrId!, event.eventId!) == 1;
+    setState(() {
+      isParticipating = participationStatus;
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    final currentUser = UserController().currentUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),
@@ -100,18 +110,27 @@ class _SecondPageState extends State<SecondPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
               MyButton(label: "Participate", onTap:()=> {
-                db.insertUserEvent(currentUser.usrId!,event.eventId),print('participate'),
-              }, visibility: true),
-              QrImageView(
-              data: '${currentUser.usrId}+${event.eventId}',
-              version: QrVersions.auto,
-              size: 200.0,
-            )
+                db.insertUserEvent(currentUser.usrId!,event.eventId),
+                Get.back(),
+                //snakbar
+                Get.snackbar('Success','You have successfully participated in the event!',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green[300]),
+                            
+
+                }, visibility: !isParticipating),
+              Visibility(
+                visible: isParticipating,
+                child: QrImageView(
+                data: '${currentUser.usrId}+${event.eventId}',
+                version: QrVersions.auto,
+                size: 200.0,
+                            ),
+              )
             ],)
             
           ],
         ),
       ),
     );
+    
   }
 }

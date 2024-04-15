@@ -15,7 +15,7 @@ class MyPropositions extends StatelessWidget {
         Column(
           children: [
             FutureBuilder<List<Event>>(
-              future: DatabaseHelper().getAllUserEvent(),
+              future: DatabaseHelper().getPropositions(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -146,13 +146,13 @@ class MyPropositions extends StatelessWidget {
                                                           Icons.delete_forever,
                                                           color: Colors.red),
                                                       iconSize: 45.0,
-                                                      onPressed: null),
+                                                      onPressed: ()=>{DatabaseHelper().deleteProp(event.eventId!), Get.back()}),
                                                   IconButton(
                                                       icon: const Icon(
                                                           Icons.check_box,
                                                           color: Colors.green),
                                                       iconSize: 45.0,
-                                                      onPressed: null),
+                                                      onPressed: ()=> {DatabaseHelper().acceptProp(event.eventId!), Get.back() }),
                                                 ],
                                               )
                                             ],

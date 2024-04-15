@@ -24,7 +24,7 @@ class DatabaseHelper extends ChangeNotifier {
    usrPassword TEXT,
     usrImage TEXT,
     usrType INTEGER default 1,
-    isProposition int
+    
    )
    ''';
 
@@ -54,6 +54,7 @@ class DatabaseHelper extends ChangeNotifier {
     month INTEGER,
     color INTEGER,
     eventImage TEXT
+    isProposition int
     )
   ''';
 static Users? _currentUser;
@@ -282,20 +283,58 @@ static Users? _currentUser;
   }
   Future<void> deleteUserEvent(int userId, int eventId) async {
     final db = await initDB();
-    await db.delete(
+    await db.update(
       'UserEvent',
+        {'participate': 0},
       where: 'userId = ? AND eventId = ?',
       whereArgs: [userId, eventId],
     );
   }
+  Future<int> checkIFParticipe(int userId, int eventId) async {
+    final db = await initDB();
+    var res = await db.rawQuery(
+        "select * from UserEvent where userId = $userId AND eventId = $eventId");
+    if (res.isNotEmpty) {
+      if(res[0]['participate'] == 1){
+        return 1;
+      }
+    }
+    return 0;
+  }
 
-  Future<List<Event>> getAllUserEvent(){
+  Future<List<Event>> getAllUserEvent(int userID){
     final db = initDB();
     return db.then((value) async {
-      final List<Map<String, dynamic>> maps = await value.query('events');
+      final List<Map<String, dynamic>> maps = await value.rawQuery('SELECT * FROM events WHERE eventId IN (SELECT eventId FROM UserEvent WHERE userId = $userID AND participate = 1)');
       return List.generate(maps.length, (i) {
         return Event.fromMap(maps[i]);
       });
     });
   }
+
+
+  Future<List<Event>> getPropositions(){
+    final db = initDB();
+    return db.then((value) async {
+      final List<Map<String, dynamic>> maps = await value.query('events', where: 'isProposition = 1');
+      return List.generate(maps.length, (i) {
+        return Event.fromMap(maps[i]);
+      });
+    });
+  }
+
+  Future<void> deleteProp(int eventid){
+    final db = initDB();
+    return db.then((value) async {
+      await value.delete('events', where: 'eventId = ?', whereArgs: [eventid]);
+    });
+
+  }
+  Future<void> acceptProp(int eventid){
+    final db = initDB();
+    return db.then((value) async {
+      await value.update('events', {'isProposition': 0}, where: 'eventId = ?', whereArgs: [eventid]);
+    });
+  }
+
 }

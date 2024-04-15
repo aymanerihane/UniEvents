@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../wigets/button.dart';
-import '../../themes/themes.dart';
 import '../../wigets/textfield.dart';
 import '../../Models/users.dart';
 import 'login.dart';
 
-import '../../DB & Controllers/database_helper.dart';
+import '../../DB%20&%20Controllers/database_helper.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -64,9 +63,22 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 const SizedBox(height: 10),
                 Button(label: "SIGN UP", press: (){
+                  print("${email.text} ${fullName.text} ${usrName.text} ${password.text} ${confirmPassword.text}");
+                  // check if the email contains @ forme like aymane@gmail.com with regular expressions
+                  if(email.text == '' || fullName.text == '' || usrName.text == '' || password.text == '' ||confirmPassword.text == ''){
+                    print("check");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('All fields are required'))
+                    );
+                    return;
+                  }else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email.text)){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid email format'))
+                    );
+                    return;
+                  }
                   signUp();
                 }),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
