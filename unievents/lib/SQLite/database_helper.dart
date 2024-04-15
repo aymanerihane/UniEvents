@@ -78,20 +78,21 @@ static Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 16, onCreate: (db, version) async {
+    return openDatabase(path, version: 17, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
       await db.execute(userEvent);
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 16) {
+      if (oldVersion <= 17) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
         var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
       
-        if (!columnNames.contains('dayOfDay')) {
-          await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
+        if (!columnNames.contains('month')) {
+          await db.execute('ALTER TABLE events ADD COLUMN month INTEGER');
         }
+
         if (!columnNames.contains('repeat')) {
           await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
         }
@@ -150,7 +151,6 @@ static Users? _currentUser;
   //Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
-    print(usr.toMap());
     return db.insert("users", usr.toMap());
   }
 
@@ -183,7 +183,6 @@ static Users? _currentUser;
   }
 
   Future<List<Event>> getEventsByDate(String date) async {
-    print('date: $date');
     final db = await initDB();
 
     // Convert date string to DateTime
@@ -234,11 +233,25 @@ static Users? _currentUser;
   //UserEvent methods
   Future<void> insertUserEvent(int userId, int eventId) async {
     final db = await initDB();
-    await db.insert(
-      'UserEvent',
-      {'userId': userId, 'eventId': eventId},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    //check if the user is already participating in the event
+    var res = await db.rawQuery(
+        "select * from UserEvent where userId = $userId AND eventId = $eventId");
+    if (res.isNotEmpty) {
+      await {
+        db.update(
+          'UserEvent',
+            {'participate': !(res[0]['participate'] as bool)},
+          where: 'userId = ? AND eventId = ?',
+          whereArgs: [userId, eventId],
+        )
+      };
+    }else{    
+        await db.insert(
+        'UserEvent',
+        {'userId': userId, 'eventId': eventId, 'participate': true},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
   Future<void> deleteUserEvent(int userId, int eventId) async {
     final db = await initDB();

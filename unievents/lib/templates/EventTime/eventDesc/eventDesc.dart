@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:unievents/JSON/userevent.dart';
 import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/userController.dart';
 import 'package:unievents/wigets/MyButton.dart';
 
 class SecondPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _SecondPageState extends State<SecondPage> {
   String? directoryPath;
   var event;
   var userEvent;
+  var db = DatabaseHelper();
   
 
   Future<String> getDirectoryPath() async {
@@ -43,10 +45,7 @@ class _SecondPageState extends State<SecondPage> {
   }
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<DatabaseHelper>(context);
-
-    // Check if currentUser is not null, else display 'Guest'
-    final currentUser = auth.currentUser;
+    final currentUser = UserController().currentUser;
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),
@@ -102,9 +101,9 @@ class _SecondPageState extends State<SecondPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              MyButton(label: "Participate", onTap: null, visibility: true),
+              MyButton(label: "Participate", onTap:()=> db.insertUserEvent(currentUser.usrId!,event.eventId), visibility: true),
               QrImageView(
-              data: '${currentUser?.usrId}+${event.eventId}',
+              data: '${currentUser.usrId}+${event.eventId}',
               version: QrVersions.auto,
               size: 200.0,
             )
