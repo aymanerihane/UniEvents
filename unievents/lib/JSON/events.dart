@@ -12,6 +12,7 @@ class Event {
   int dayOfMonth;
   int month;
   String? eventImage;
+  int isProposition;
 
   Event({
     this.eventId,
@@ -27,6 +28,7 @@ class Event {
     required this.dayOfMonth,
     required this.month,
     required this.eventImage,
+    required this.isProposition,
   });
 
   // Convert Event object to Map object
@@ -45,6 +47,7 @@ class Event {
       'dayOfMonth': dayOfMonth,
       'month': month,
       'eventImage': eventImage,
+      'isProposition': isProposition,
     };
   }
 
@@ -64,6 +67,7 @@ class Event {
       dayOfMonth: map['dayOfMonth'],
       month: map['month'],
       eventImage: map['eventImage'],
+      isProposition: map['isProposition'],
     );
   }
 }

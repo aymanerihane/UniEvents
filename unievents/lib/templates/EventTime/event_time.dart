@@ -3,8 +3,6 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/userController.dart';
@@ -153,7 +151,15 @@ Widget topEventTimePicker(currentUser) {
             children: [
                MyButton(label: currentUser?.usrType == 0 ?"proposition":"My propositions", onTap: currentUser?.usrType == 0 ?()=> Get.to(const Propositions()):()=> Get.to(const MyPropositions()),visibility: true,),
               const SizedBox(width: 20,),
-              MyButton(label: currentUser?.usrType == 0 ?"+ add Event":"+ add Proposition" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
+              MyButton(label: currentUser?.usrType == 0 ?"+ add Event":"+ add Proposition" , onTap: ()=>{
+              if(currentUser?.usrType == 0){
+                Get.to(const Add_event(isProp:false))
+              }
+              else{
+                Get.to(const Add_event(isProp:true))
+              }
+              }
+              ,visibility: true,),
             ],
           ),
         ),

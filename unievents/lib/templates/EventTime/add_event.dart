@@ -13,13 +13,17 @@ import 'package:path_provider/path_provider.dart';
 import '../../JSON/events.dart'; 
 
 class Add_event extends StatefulWidget {
-  const Add_event({super.key});
+  final bool isProp;
+  const Add_event({super.key, required this.isProp});
 
   @override
   State<Add_event> createState() => _Add_eventState();
 }
 
 class _Add_eventState extends State<Add_event> {
+
+  // Get the value of isProp from the widget
+  bool get isProp => widget.isProp;
 
   //controllers
   final _eventTitle = TextEditingController();
@@ -312,9 +316,9 @@ class _Add_eventState extends State<Add_event> {
                           }else{
                             // Show a snackbar
                           Get.snackbar('Event Created', 'Event has been created successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.greenAccent),
-                          print('event'),
+                          print(isProp ? 'Proposition' : 'Event'),
                           
-                          _addEvent(),
+                          _addEvent(isProp),
                           print('event created'),
                           Get.back(),
 
@@ -332,10 +336,9 @@ class _Add_eventState extends State<Add_event> {
     );
   }
   
-Future<void> _addEvent() async {
+Future<void> _addEvent(is_Pro) async {
 
     
-
 
 
     // Create an Event object
@@ -352,6 +355,7 @@ Future<void> _addEvent() async {
       month: _month,
       color: _colorindex,
       eventImage: filePath,
+      isProposition: is_Pro ? 1 : 0,
       // Set other event details
     );
 
