@@ -24,6 +24,7 @@ class DatabaseHelper extends ChangeNotifier {
    usrPassword TEXT,
     usrImage TEXT,
     usrType INTEGER default 1,
+    isProposition int
    )
    ''';
 
@@ -78,7 +79,7 @@ static Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 18, onCreate: (db, version) async {
+    return openDatabase(path, version: 19, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
       await db.execute(userEvent);
@@ -90,7 +91,7 @@ static Users? _currentUser;
           'usrImage': 'assets/images/user.png',
         });
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 18) {
+      if (oldVersion <= 19) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
@@ -99,6 +100,7 @@ static Users? _currentUser;
         if(columnNames.contains('dayOfday')){
           await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
         }
+        
         if (!columnNames.contains('month')) {
           await db.execute('ALTER TABLE events ADD COLUMN month INTEGER');
         }
@@ -117,6 +119,10 @@ static Users? _currentUser;
         }
         if (!columnNames.contains('dayOfWeek')) {
           await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+        }
+
+        if(!columnNames.contains('isProposition')){
+          await db.execute('ALTER TABLE events ADD COLUMN isProposition INTEGER');
         }
         // if(columnNamesOfUsers.contains('patricipate')){
         //   await db.execute('ALTER TABLE user DROP COLUMN patricipate');

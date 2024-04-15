@@ -45,6 +45,16 @@ class _SignupScreenState extends State<SignupScreen> {
                  child: Text("Register New Account",style: TextStyle(color: Color.fromARGB(255, 0, 100, 100),fontSize: 55,fontWeight: FontWeight.bold),),
                ),
 
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/default.jpg'),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 InputField(hint: "Full name", icon: Icons.person, controller: fullName),
                 InputField(hint: "Email", icon: Icons.email, controller: email),
