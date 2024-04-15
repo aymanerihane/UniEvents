@@ -7,10 +7,10 @@ import 'package:unievents/templates/registration/auth.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/card.dart';
 import 'package:unievents/templates/Settings/profile.dart';
+import 'package:unievents/templates/Settings/notiffications.dart';
 import '../homePage/homePage.dart';
 import 'package:provider/provider.dart';
 import 'package:unievents/SQLite/database_helper.dart';
-
 
 class Hidden_Drawer extends StatefulWidget {
   const Hidden_Drawer({super.key});
@@ -70,17 +70,21 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
     ];
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DatabaseHelper>(
-      create: (context) => DatabaseHelper(), // Provide an instance of DatabaseHelper
+      create: (context) =>
+          DatabaseHelper(), // Provide an instance of DatabaseHelper
       child: Scaffold(
         body: HiddenDrawerMenu(
           elevationAppBar: 0,
           backgroundColorAppBar: primaryColor,
           backgroundColorContent: Colors.white,
           actionsAppBar: [
-            Icon(Icons.notifications),
+            GestureDetector(
+              onTap: () => Get.to(() => NotificationsPage()),
+              child: Icon(Icons.notifications),
+            ),
             SizedBox(width: 10),
             GestureDetector(
               onTap: () => Get.to(() => const Profile()),
