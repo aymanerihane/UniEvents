@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:unievents/templates/EventTime/event_timeByCategory.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -11,7 +13,7 @@ class HomePage extends StatelessWidget {
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
-          onTap:  null,
+          onTap:  ()=>Get.to(() => const Event_TimeByCategorie(type:"Conference")),
         
         child:  Container(
           margin: EdgeInsets.fromLTRB(5.0, 40.0, 5.0, 20.0),
@@ -61,7 +63,7 @@ class HomePage extends StatelessWidget {
       ]),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
        GestureDetector(
-          onTap:  null,
+          onTap:  ()=>Get.to(() => const Event_TimeByCategorie(type:"Evenement")),
         
         child:  Container(
           margin: EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 20.0),
@@ -112,7 +114,7 @@ class HomePage extends StatelessWidget {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
-          onTap:  null,
+          onTap:  ()=>Get.to(() => const Event_TimeByCategorie(type:"Attelier")),
         
         child:  Container(
           margin: EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 20.0),

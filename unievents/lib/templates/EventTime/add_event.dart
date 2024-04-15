@@ -50,7 +50,7 @@ class _Add_eventState extends State<Add_event> {
 
   //Type
   String _selectedType = "Attelier";
-  List<String> typeList = ["Attelier", "Evenement", "Metting", "Others"];
+  List<String> typeList = ["Attelier", "Evenement", "Conference", "Others"];
 
 
   //file 

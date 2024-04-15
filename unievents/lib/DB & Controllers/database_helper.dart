@@ -80,7 +80,7 @@ static Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 21, onCreate: (db, version) async {
+    return openDatabase(path, version: 22, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
       await db.execute(userEvent);
@@ -92,7 +92,7 @@ static Users? _currentUser;
           'usrImage': 'assets/images/user.png',
         });
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 21) {
+      if (oldVersion <= 22) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
@@ -228,6 +228,17 @@ static Users? _currentUser;
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
     });
+  }
+
+  Future<List<Event>> getEventsByDateandType(String date,String type){//type is attelier or conference or other
+    final db = initDB();
+    return db.then((value) async {
+      final List<Map<String, dynamic>> maps = await value.rawQuery('SELECT * FROM events WHERE eventType = ? AND eventDate = ? AND isProposition = 0',[type,date]);
+      return List.generate(maps.length, (i) {
+        return Event.fromMap(maps[i]);
+      });
+    });
+
   }
 
   Future<void> updateEvent(Event event) async {
