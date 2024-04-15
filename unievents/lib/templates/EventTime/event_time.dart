@@ -149,16 +149,9 @@ Widget topEventTimePicker(currentUser) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
                MyButton(label: "proposition", onTap: ()=> Get.to(const MyPropositions()),visibility: currentUser.usrType == 0,),
+
               const SizedBox(width: 20,),
-              MyButton(label: currentUser?.usrType == 0 ?"+ add Event":"+ add Proposition" , onTap: ()=>{
-              if(currentUser?.usrType == 0){
-                Get.to(const Add_event(isProp:false))
-              }
-              else{
-                Get.to(const Add_event(isProp:true))
-              }
-              }
-              ,visibility: true,),
+              MyButton(label: currentUser?.usrType == 0 ?"+ add Event":"+ add Proposition" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
             ],
           ),
         ),
