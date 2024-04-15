@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/userController.dart';
 
 
 class Card_Event extends StatelessWidget {
@@ -7,14 +9,17 @@ class Card_Event extends StatelessWidget {
   final String type;
   final String date;
   final Color colore;
+  final int? eventID;
   final Function()? onTap;
-  const Card_Event({super.key, required this.label, required this.onTap, required this.discription, required this.type, required this.date, required this.colore});
+  const Card_Event({super.key, required this.label, required this.onTap, required this.discription, required this.type, required this.date, required this.colore, this.eventID});
 
   
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = UserController().currentUser;
     var width = MediaQuery.of(context).size.width;
+    final db= DatabaseHelper();
     const pi = 3.1416;
     return Container(
       margin: const EdgeInsets.only(top: 20, left: 10),
@@ -72,6 +77,12 @@ class Card_Event extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Visibility(child:
+                   GestureDetector(
+                    onTap: () {db.deleteEvent(eventID!);},
+                    child: const Icon(Icons.delete)
+                  ),
+                  visible:currentUser.usrType== 0),
                   SizedBox(width: 11,),
                   const VerticalDivider(
                     color: Colors.white,
