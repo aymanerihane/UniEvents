@@ -32,64 +32,60 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
       appBar: _appBar(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              const Expanded(flex: 1, child: _TopPortion()),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        username, // Display the username
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      MyInput(
-                        controller: _usrname,
-                        hint: username,
-                        title: 'Username',
-                      ),
-                      MyInput(
-                        controller: _email,
-                        hint: currentUser?.email ?? 'is not',
-                        title: 'Email',
-                      ),
-                      MyInput(
-                        controller: _password,
-                        hint: 'change your password',
-                        title: 'Password',
-                      ),
-                      MyButton(
-                        label: "Save",
-                        onTap: () async {
-                          final updatedUser = Users(
-                            usrId: currentUser?.usrId,
-                            usrName: _usrname.text,
-                            email: _email.text,
-                            password: _password.text,
-                          );
-                          print(_usrname.text);
-                          await auth.updateUser(updatedUser);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Hidden_Drawer()));
-                        },
-                        visibility: true,
-                      ),
-                    ],
+      body: Column(
+        children: [
+          const Expanded(flex: 1, child: _TopPortion()),
+          Expanded(
+            flex: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    username, // Display the username
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                ),
+                  MyInput(
+                    controller: _usrname,
+                    hint: username,
+                    title: 'Username',
+                  ),
+                  MyInput(
+                    controller: _email,
+                    hint: currentUser?.email ?? 'is not',
+                    title: 'Email',
+                  ),
+                  MyInput(
+                    controller: _password,
+                    hint: 'change your password',
+                    title: 'Password',
+                  ),
+                  MyButton(
+                    label: "Save",
+                    onTap: () async {
+                      final updatedUser = Users(
+                        usrId: currentUser?.usrId,
+                        usrName: _usrname.text,
+                        email: _email.text,
+                        password: _password.text,
+                      );
+                      print(_usrname.text);
+                      await auth.updateUser(updatedUser);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Hidden_Drawer()));
+                    },
+                    visibility: true,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
