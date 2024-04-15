@@ -46,7 +46,7 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
           const Event_Time()),
       ScreenHiddenDrawer(
           ItemHiddenMenu(
-            name: "Cadrs",
+            name: "My Participitions",
             baseStyle:
                 TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
             colorLineSelected: Colors.white,

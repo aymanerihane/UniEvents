@@ -11,6 +11,8 @@ class Users {
   final String? email;
   final String usrName;
   final String password;
+  final String? usrImage ;
+  final int usrType;
 
   Users({
     this.usrId,
@@ -18,6 +20,8 @@ class Users {
     this.email,
     required this.usrName,
     required this.password,
+    this.usrImage,
+    this.usrType = 1,
   });
 
   //These json value must be same as your column name in database that we have already defined
@@ -28,6 +32,8 @@ class Users {
     email: json["email"],
     usrName: json["usrName"],
     password: json["usrPassword"],
+    usrImage: json["usrImage"],
+    usrType: json["usrType"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -36,5 +42,7 @@ class Users {
     "email": email,
     "usrName": usrName,
     "usrPassword": password,
+    "usrImage": usrImage,
+    "usrType": usrType,
   };
 }

@@ -156,5 +156,5 @@ Widget topEventTimePicker() {
 }
 
 void navigateToEventDetails(Event event){
-  Get.to(const EventDescription(), arguments: event);
+  Get.to(const SecondPage(heroTag: 1,), arguments: event);
 }

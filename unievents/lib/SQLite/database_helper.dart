@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,9 +20,22 @@ class DatabaseHelper extends ChangeNotifier {
    fullName TEXT,
    email TEXT,
    usrName TEXT UNIQUE,
-   usrPassword TEXT
+   usrPassword TEXT,
+    usrImage TEXT,
+    usrType INTEGER default 1,
    )
    ''';
+
+   String userEvent= '''
+      CREATE TABLE UserEvent (
+        userId INTEGER,
+        eventId INTEGER,
+        participate BOOLEAN DEFAULT false,
+        PRIMARY KEY(userId, eventId),
+        FOREIGN KEY(userId) REFERENCES User(id),
+        FOREIGN KEY(eventId) REFERENCES Event(id)
+      )
+    ''';
 
   String events = '''
     CREATE TABLE events (
@@ -60,17 +74,50 @@ Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 9, onCreate: (db, version) async {
+    return openDatabase(path, version: 16, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
+      await db.execute(userEvent);
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion < 9) {
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
-        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
-        await db.execute('DROP TABLE IF EXISTS events');
-        await db.execute(events);
+      if (oldVersion <= 16) {
+        var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
+        var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
+        var columnNames = tableColumns.map((column) => column['name']).toList();
+        var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
+      
+        if (!columnNames.contains('dayOfDay')) {
+          await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
+        }
+        if (!columnNames.contains('repeat')) {
+          await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+        }
+        if (!columnNames.contains('dayOfMonth')) {
+          await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
+        }
+        if (!columnNames.contains('dayOfWeek')) {
+          await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+        }
+        // if(columnNamesOfUsers.contains('patricipate')){
+        //   await db.execute('ALTER TABLE user DROP COLUMN patricipate');
+        // }
+        print(columnNames);
+        print(columnNamesOfUsers);
+        if(!columnNamesOfUsers.contains('usrType')){
+          await db.execute('ALTER TABLE users ADD COLUMN usrType INTEGER');
+        }
+        if(!columnNamesOfUsers.contains('usrImage')){
+          await db.execute('ALTER TABLE users ADD COLUMN usrImage TEXT');
+        }
+        await db.execute(userEvent);
+        //ajouter un super user
+        await db.insert('users', {
+          'usrName': 'admin',
+          'usrPassword': 'admin',
+          'usrType': 0,
+          'usrImage': 'assets/images/user.png',
+        });
+
+      
       }
     });
   }
