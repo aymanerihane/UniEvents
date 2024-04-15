@@ -109,7 +109,7 @@ class _SecondPageState extends State<SecondPage> {
               Visibility(
                 visible: isParticipating,
                 child: QrImageView(
-                data: '${currentUser.usrId}+${event.eventId}',
+                data: 'userID: ${currentUser.usrId}+ eventID:${event.eventId}',
                 version: QrVersions.auto,
                 size: 200.0,
                             ),
