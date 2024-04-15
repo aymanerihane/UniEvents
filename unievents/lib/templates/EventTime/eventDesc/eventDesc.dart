@@ -19,7 +19,6 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  String? directoryPath;
   var event;
   var userEvent;
   var db = DatabaseHelper();
@@ -27,10 +26,6 @@ class _SecondPageState extends State<SecondPage> {
   late final currentUser;
   
 
-  Future<String> getDirectoryPath() async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
   
 
   @override
@@ -39,11 +34,6 @@ class _SecondPageState extends State<SecondPage> {
     event = Get.arguments;
     userEvent = Get.arguments;
     checkParticipation();
-    getDirectoryPath().then((path) {
-      setState(() {
-        directoryPath = path;
-      });
-    });
   }
   Future<void> checkParticipation() async {
     currentUser = UserController().currentUser;
@@ -68,7 +58,7 @@ class _SecondPageState extends State<SecondPage> {
           left: 0,
           right: 0,
             child: Image(
-              image: FileImage(File('$directoryPath/${event.eventImage}')),
+              image: FileImage(File('${event.eventImage}')),
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,)),
