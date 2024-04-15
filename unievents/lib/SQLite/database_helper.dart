@@ -78,12 +78,19 @@ static Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 17, onCreate: (db, version) async {
+    return openDatabase(path, version: 18, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
       await db.execute(userEvent);
+              //ajouter un super user
+        await db.insert('users', {
+          'usrName': 'admin',
+          'usrPassword': 'admin',
+          'usrType': 0,
+          'usrImage': 'assets/images/user.png',
+        });
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 17) {
+      if (oldVersion <= 18) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
@@ -122,14 +129,7 @@ static Users? _currentUser;
         if(!columnNamesOfUsers.contains('usrImage')){
           await db.execute('ALTER TABLE users ADD COLUMN usrImage TEXT');
         }
-        await db.execute(userEvent);
-        //ajouter un super user
-        await db.insert('users', {
-          'usrName': 'admin',
-          'usrPassword': 'admin',
-          'usrType': 0,
-          'usrImage': 'assets/images/user.png',
-        });
+
 
       
       }
