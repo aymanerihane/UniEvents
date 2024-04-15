@@ -50,23 +50,7 @@ class DatabaseHelper extends ChangeNotifier {
       await db.execute(user);
       await db.execute(events);
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion < 4) {
-        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
-      }
-      if (oldVersion < 5) {
-        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
-      }
-      if (oldVersion < 6) {
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
-      }
-      if (oldVersion < 7) {
-        await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
-      }
-      if (oldVersion < 8) {
-        await db.execute('DROP TABLE IF EXISTS events');
-        await db.execute(events);
-      }
+      
     });
   }
 
