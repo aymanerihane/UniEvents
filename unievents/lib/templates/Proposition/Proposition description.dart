@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 
 final List<String> _images = [
   'https://images.pexels.com/photos/167699/pexels-photo-167699.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
@@ -82,12 +84,12 @@ class PropositionDesc extends StatelessWidget {
             IconButton(
                 icon: const Icon(Icons.delete_forever, color: Colors.red),
                 iconSize: 90.0,
-                onPressed: null
+                onPressed: ()=>{DatabaseHelper().deleteProp(event.eventId!), Get.back()}
                ),
              IconButton(
                  icon: const Icon(Icons.check_box, color: Colors.green),
                  iconSize: 90.0,
-                 onPressed: null
+                 onPressed: ()=> {DatabaseHelper().acceptProp(event.eventId!), Get.back() }
                 ),
 
 
