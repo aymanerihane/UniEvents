@@ -60,7 +60,7 @@ class _Event_TimeState extends State<Event_Time> {
                             discription: event.eventDescription,
                             type: event.eventType,
                             date: event.eventDate,
-                            colore: event.color == 0 ? event.color == 1 ? eventColor1: eventColor2 : eventColor3, // Parse and create color,
+                            colore: event.color == 0 ? eventColor1 : event.color == 1 ? eventColor2 : eventColor3,// Parse and create color,
                             onTap: ()=>navigateToEventDetails(event),
                           
                           ),

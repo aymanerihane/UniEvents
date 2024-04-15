@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 import 'package:unievents/DB%20&%20Controllers/userController.dart';
 import 'package:unievents/wigets/MyButton.dart';
