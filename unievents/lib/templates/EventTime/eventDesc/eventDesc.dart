@@ -47,7 +47,6 @@ class _SecondPageState extends State<SecondPage> {
 
     // Check if currentUser is not null, else display 'Guest'
     final currentUser = auth.currentUser;
-    final username = currentUser != null ? currentUser.usrName : 'Guest';
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),

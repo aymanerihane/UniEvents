@@ -3,6 +3,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:unievents/userController.dart';
 
 import '../JSON/users.dart';
 import '../JSON/events.dart';
@@ -54,18 +55,21 @@ class DatabaseHelper extends ChangeNotifier {
     eventImage TEXT
     )
   ''';
-Users? _currentUser;
+static Users? _currentUser;
 
   Users? get currentUser => _currentUser;
 
-  Users? getCurrentUser() {
+  static Users? getCurrentUser() {
+    print(_currentUser?.usrType);
 
+    
     return _currentUser;
   }
 
   void setCurrentUser(Users usr) async {
   Users? crtusr = await getUser(usr.usrName);
   _currentUser = crtusr;
+  UserController().currentUser = crtusr!;
   print(currentUser?.email ?? 'toto');
   notifyListeners();
 }

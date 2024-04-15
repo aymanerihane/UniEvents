@@ -3,9 +3,11 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
+import 'package:unievents/userController.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/templates/EventTime/add_event.dart';
 import 'package:unievents/templates/EventTime/card_event.dart';
@@ -28,18 +30,16 @@ class _Event_TimeState extends State<Event_Time> {
   String selectedDate = DateFormat('yMMMMd').format(DateTime.now());
   List<String> daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   String selectedDay = 'Today';
+  late var currentUser;
+
   
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<DatabaseHelper>(context);
-
-    // Check if currentUser is not null, else display 'Guest'
-    final currentUser = auth.currentUser;
+    currentUser = UserController().currentUser;
     return ListView(
       children:[ Column(
         children: [
-          Text("${currentUser?.usrType}"),
           topEventTimePicker(currentUser),
           time_Picker(),
           FutureBuilder<List<Event>>(
@@ -150,9 +150,9 @@ Widget topEventTimePicker(currentUser) {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               MyButton(label: "proposition", onTap: ()=> Get.to(const Propositions()),visibility: currentUser?.usrType != 0,),
+               MyButton(label: "proposition", onTap: ()=> Get.to(const Propositions()),visibility: currentUser?.usrType == 0,),
               const SizedBox(width: 20,),
-              MyButton(label: true ?"+ add Event":"+ add Proposition" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
+              MyButton(label: currentUser?.usrType == 0 ?"+ add Event":"+ add Proposition" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
             ],
           ),
         ),
