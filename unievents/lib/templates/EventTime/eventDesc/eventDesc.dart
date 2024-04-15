@@ -2,11 +2,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:unievents/JSON/userevent.dart';
 import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/userController.dart';
 import 'package:unievents/wigets/MyButton.dart';
@@ -101,7 +99,9 @@ class _SecondPageState extends State<SecondPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              MyButton(label: "Participate", onTap:()=> db.insertUserEvent(currentUser.usrId!,event.eventId), visibility: true),
+              MyButton(label: "Participate", onTap:()=> {
+                db.insertUserEvent(currentUser.usrId!,event.eventId),print('participate'),
+              }, visibility: true),
               QrImageView(
               data: '${currentUser.usrId}+${event.eventId}',
               version: QrVersions.auto,

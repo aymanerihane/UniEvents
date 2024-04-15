@@ -246,17 +246,17 @@ static Users? _currentUser;
     var res = await db.rawQuery(
         "select * from UserEvent where userId = $userId AND eventId = $eventId");
     if (res.isNotEmpty) {
-      if(res[0]['participate'] as bool){
+      if(res[0]['participate'] == 0){
         await db.update(
           'UserEvent',
-            {'participate': false},
+            {'participate': 1},
           where: 'userId = ? AND eventId = ?',
           whereArgs: [userId, eventId],
         );
       }else{
         await db.update(
           'UserEvent',
-            {'participate': true},
+            {'participate': 0},
           where: 'userId = ? AND eventId = ?',
           whereArgs: [userId, eventId],
         );
