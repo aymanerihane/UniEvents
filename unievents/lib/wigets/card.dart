@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unievents/themes/themes.dart';
+import 'package:unievents/wigets/MyButton.dart';
 
 class CardPage extends StatelessWidget {
   const CardPage({super.key});
@@ -183,9 +184,10 @@ class SecondPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Register'),
+            MyButton(
+              label: "Participate",
+              onTap: null,
+              visibility: true,
             ),
           ],
         ),
