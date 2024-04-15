@@ -18,9 +18,9 @@ class HomePage extends StatelessWidget {
           onTap:  ()=> Get.to(const Conferences_Time()),
         
         child:  Container(
-          margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
+          margin: EdgeInsets.fromLTRB(5.0, 40.0, 5.0, 20.0),
           width: 350,
-          height: 170,
+          height: 200,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -68,9 +68,9 @@ class HomePage extends StatelessWidget {
           onTap:  ()=> Get.to(const Evenement_Time()),
         
         child:  Container(
-          margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
+          margin: EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 20.0),
           width: 350,
-          height: 170,
+          height: 200,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -119,9 +119,9 @@ class HomePage extends StatelessWidget {
           onTap:  ()=> Get.to(const Atelier_Time()),
         
         child:  Container(
-          margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
+          margin: EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 20.0),
           width: 350,
-          height: 170,
+          height: 200,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
                     topRight: Radius.circular(0),
                   ),
                   child: Image.asset(
-                    'assets/images/conference.jpg',
+                    'assets/images/Ateliers2.jpeg',
                     width: 350,
                     height: 170,
                     fit: BoxFit.fill,
