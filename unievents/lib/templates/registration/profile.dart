@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../Components/button.dart';
+import '../../wigets/button.dart';
 import '../../themes/themes.dart';
-import '../../JSON/users.dart';
+import '../../Models/users.dart';
 import 'login.dart';
 
 class Profile extends StatelessWidget {

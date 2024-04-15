@@ -1,4 +1,4 @@
-import './JSON/users.dart';
+import '../Models/users.dart';
 class UserController {
   static var _user;
   Users get currentUser => _user;

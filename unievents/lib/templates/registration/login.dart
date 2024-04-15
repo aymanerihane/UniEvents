@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../Components/button.dart';
+import '../../wigets/button.dart';
 import '../../themes/themes.dart';
-import '../../Components/textfield.dart';
-import '../../JSON/users.dart';
+import '../../wigets/textfield.dart';
+import '../../Models/users.dart';
 import 'package:provider/provider.dart'; // Import Provider
 
 import '../drawer/hidden_drawer.dart';
@@ -10,7 +10,7 @@ import '../drawer/hidden_drawer.dart';
 import 'signup.dart';
 
 
-import '../../SQLite/database_helper.dart';
+import '../../DB & Controllers/database_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

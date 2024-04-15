@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/templates/EventTime/card_event.dart';
 import 'package:unievents/themes/themes.dart';
 
-import '../../JSON/events.dart';
+import '../../Models/events.dart';
 
 class NotificationsPage extends StatelessWidget {
   // final List<String>=[] ;
@@ -29,12 +29,22 @@ class NotificationsPage extends StatelessWidget {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else {
                         List<Event>? events = snapshot.data;
+                        String? oldEvent; // Define oldEvent outside the map function
                         if (events != null && events.isNotEmpty) {
                           return Column(
                             children: events.map((event) {
+                              bool visi = true; // Define visi outside the if statement
+                              if(oldEvent != null && event.eventDate == oldEvent){
+                                visi = false;
+                              }
+                              oldEvent = event.eventDate; // Update oldEvent after checking
+                        
                               return Column(
                                 children: [
-                                  Text(event.eventDate.toString()),
+                                  Visibility(
+                                    visible: visi,
+                                    child: Text(event.eventDate.toString()),
+                                  ),
                                   GestureDetector(
                                   
                                     child: Card_Event(

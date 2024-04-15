@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
 import 'package:unievents/wigets/input.dart';
@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../JSON/events.dart'; 
+import '../../Models/events.dart'; 
 
 class Add_event extends StatefulWidget {
   final bool isProp;

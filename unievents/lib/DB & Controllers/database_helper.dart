@@ -3,10 +3,10 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:unievents/userController.dart';
+import 'package:unievents/DB%20&%20Controllers/userController.dart';
 
-import '../JSON/users.dart';
-import '../JSON/events.dart';
+import '../Models/users.dart';
+import '../Models/events.dart';
 
 class DatabaseHelper extends ChangeNotifier {
   final databaseName = "auth.db";
@@ -216,7 +216,7 @@ static Users? _currentUser;
 
     // Fetch events from the database
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM events WHERE (eventDate <= ? AND (eventDate = ? OR repeat = 'Daily' OR (repeat = 'Weekly' AND dayOfWeek = ?) OR (repeat = 'Monthly' AND dayOfMonth = ?) OR (repeat = 'Yearly' AND month = ? AND dayOfMonth = ?)))",
+        "SELECT * FROM events WHERE ((eventDate <= ? AND (eventDate = ? OR repeat = 'Daily' OR (repeat = 'Weekly' AND dayOfWeek = ?) OR (repeat = 'Monthly' AND dayOfMonth = ?) OR (repeat = 'Yearly' AND month = ? AND dayOfMonth = ?)))) AND isProposition = 0",
         [date, date, dayOfWeek, dayOfMonth, month, dayOfMonth]);
 
     // final List<Map<String, dynamic>> maps = await db.query(
@@ -287,5 +287,15 @@ static Users? _currentUser;
       where: 'userId = ? AND eventId = ?',
       whereArgs: [userId, eventId],
     );
+  }
+
+  Future<List<Event>> getAllUserEvent(){
+    final db = initDB();
+    return db.then((value) async {
+      final List<Map<String, dynamic>> maps = await value.query('events');
+      return List.generate(maps.length, (i) {
+        return Event.fromMap(maps[i]);
+      });
+    });
   }
 }

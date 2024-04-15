@@ -10,7 +10,7 @@ import 'package:unievents/templates/Settings/profile.dart';
 import 'package:unievents/templates/Settings/notiffications.dart';
 import '../homePage/homePage.dart';
 import 'package:provider/provider.dart';
-import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 
 class Hidden_Drawer extends StatefulWidget {
   const Hidden_Drawer({super.key});

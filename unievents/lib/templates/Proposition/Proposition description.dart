@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:unievents/wigets/MyButton.dart';
-import 'package:get/get.dart';
 
 final List<String> _images = [
   'https://images.pexels.com/photos/167699/pexels-photo-167699.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
@@ -13,7 +11,8 @@ final List<String> _images = [
 
 class PropositionDesc extends StatelessWidget {
   final int heroTag;
-  const PropositionDesc({super.key,required this.heroTag});
+  final event;
+  const PropositionDesc({super.key,required this.heroTag,required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class PropositionDesc extends StatelessWidget {
             ),
             SizedBox(height: 20.0),
             Text(
-              'Event Name',
+              event.eventName,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -47,23 +46,23 @@ class PropositionDesc extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Text(
-              'Date: January 1, 2025',
+              'Date: ${event.eventDate}',
               style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.grey[700],
               ),
             ),
             SizedBox(height: 10.0),
-            Text(
-              'Location: New York City',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.grey[700],
-              ),
-            ),
+            // Text(
+            //   'Location: New York City',
+            //   style: TextStyle(
+            //     fontSize: 16.0,
+            //     color: Colors.grey[700],
+            //   ),
+            // ),
             SizedBox(height: 20.0),
             Text(
-              'Description:',
+              'Description: ',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -71,7 +70,7 @@ class PropositionDesc extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis ante in sem congue gravida. Vestibulum sollicitudin ut felis nec elementum.',
+              event.eventDescription,
               style: TextStyle(
                 fontSize: 16.0,
               ),

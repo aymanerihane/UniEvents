@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unievents/templates/registration/auth.dart';
 import 'package:provider/provider.dart';
-import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 
 
 

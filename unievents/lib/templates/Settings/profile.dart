@@ -4,7 +4,7 @@ import 'package:provider/provider.dart'; // Import Provider
 import 'package:unievents/wigets/input.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
-import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
