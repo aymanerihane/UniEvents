@@ -30,12 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  qr_flutter: ^4.1.0
   provider: ^5.0.0
   sqflite: 
   path:
   get:
-  google_fonts: 
   hidden_drawer_menu: ^3.0.1
   intl:
   date_picker_timeline:
