@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart'; // Import Provider
+import 'package:unievents/Models/users.dart';
+import 'package:unievents/templates/drawer/hidden_drawer.dart';
+import 'package:unievents/templates/homePage/homePage.dart';
 import 'package:unievents/wigets/input.dart';
 import 'package:unievents/wigets/MyButton.dart';
 import 'package:unievents/themes/themes.dart';
-import 'package:unievents/DB%20&%20Controllers/database_helper.dart';
+import 'package:unievents/DB & Controllers/database_helper.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -14,9 +17,9 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final _eventTitle = TextEditingController();
-  final _eventDiscription = TextEditingController();
-  final _otherType = TextEditingController();
+  final _usrname = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,23 +49,36 @@ class _ProfileState extends State<Profile> {
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   MyInput(
-                    controller: _eventTitle,
+                    controller: _usrname,
                     hint: username,
                     title: 'Username',
                   ),
                   MyInput(
-                    controller: _eventTitle,
+                    controller: _email,
                     hint: currentUser?.email ?? 'is not',
-                    title: 'Enter Event Title',
+                    title: 'Email',
                   ),
                   MyInput(
-                    controller: _eventTitle,
+                    controller: _password,
                     hint: 'change your password',
                     title: 'Password',
                   ),
                   MyButton(
                     label: "Save",
-                    onTap: null,
+                    onTap: () async {
+                      final updatedUser = Users(
+                        usrId: currentUser?.usrId,
+                        usrName: _usrname.text,
+                        email: _email.text,
+                        password: _password.text,
+                      );
+                      print(_usrname.text);
+                      await auth.updateUser(updatedUser);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Hidden_Drawer()));
+                    },
                     visibility: true,
                   ),
                 ],
