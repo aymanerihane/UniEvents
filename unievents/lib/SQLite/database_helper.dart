@@ -46,11 +46,20 @@ class DatabaseHelper extends ChangeNotifier {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 8, onCreate: (db, version) async {
+    return openDatabase(path, version: 9, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
     }, onUpgrade: (db, oldVersion, newVersion) async {
       
+      
+      if (oldVersion < 9) {
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
+        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+        await db.execute('DROP TABLE IF EXISTS events');
+        await db.execute(events);
+      }
     });
   }
 
