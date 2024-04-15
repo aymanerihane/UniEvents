@@ -40,7 +40,7 @@ class MyContainer extends StatelessWidget {
               width: 380,
               height: 150,
               decoration: BoxDecoration(
-                color: secondaryColor,
+                color: primaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -58,7 +58,6 @@ class MyContainer extends StatelessWidget {
                                   height: 51,
                                   padding: EdgeInsets.all(5.0),
                                   decoration: BoxDecoration(
-                                    color: secondaryColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -91,7 +90,7 @@ class MyContainer extends StatelessWidget {
                                 height: 99,
                                 padding: EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  color: secondaryColor,
+                                  // color: primaryColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
@@ -184,11 +183,16 @@ class SecondPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.0),
-            QrImageView(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              QrImageView(
               data: 'userid+eventid',
               version: QrVersions.auto,
               size: 200.0,
             )
+            ],)
+            
           ],
         ),
       ),

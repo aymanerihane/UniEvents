@@ -52,7 +52,7 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
           CardPage()),
       ScreenHiddenDrawer(
           ItemHiddenMenu(
-            name: "Log out",
+            name: "Log In",
             baseStyle:
                 TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
             colorLineSelected: primaryColor,

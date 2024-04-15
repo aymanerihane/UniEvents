@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unievents/templates/Proposition/Proposition%20description.dart';
 
+import 'package:unievents/themes/themes.dart';
+
 
 
 class Propositions extends StatelessWidget{
@@ -25,7 +27,7 @@ const Propositions({super.key});
            width: 380,
             height: 150,
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: primaryColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -43,7 +45,7 @@ const Propositions({super.key});
                       height: 51,
                       padding: EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        // color: Colors.blue,
                          borderRadius: BorderRadius.circular(10),      
                         ),
                         child: Column(
@@ -80,7 +82,7 @@ const Propositions({super.key});
                           height: 99,
                           padding: EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
-                            color: Colors.blue,
+                            // color: Colors.blue,
                              borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
@@ -103,7 +105,7 @@ const Propositions({super.key});
                        width: 80,
                       height: 150,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        // color: Colors.blue,
                          borderRadius: BorderRadius.circular(10),
                       ),
                      child:  Row(
@@ -123,13 +125,13 @@ const Propositions({super.key});
                              IconButton(
                                 icon: const Icon(Icons.delete_forever, color: Colors.red),
                                 iconSize: 45.0,
-                                onPressed: () => Get.back(),
+                                onPressed: null
                               ),
                                SizedBox(width: 20),
                            IconButton(
                               icon: const Icon(Icons.check_box, color: Colors.green),
                               iconSize: 45.0,
-                              onPressed: () => Get.back(),
+                              onPressed:  null
                             ),
 
 

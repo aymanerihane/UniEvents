@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:unievents/templates/Ateliers/atelier_time.dart';
+import 'package:unievents/templates/Conferences/conferences_time.dart';
+import 'package:unievents/templates/Evenement/evenement_time.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -10,7 +14,10 @@ class HomePage extends StatelessWidget {
      
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
+        GestureDetector(
+          onTap:  ()=> Get.to(const Conferences_Time()),
+        
+        child:  Container(
           margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
           width: 350,
           height: 170,
@@ -53,11 +60,15 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+        ),
         )
       ]),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(5.0, 20.0, 5.0, 20.0),
+       GestureDetector(
+          onTap:  ()=> Get.to(const Evenement_Time()),
+        
+        child:  Container(
+          margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
           width: 350,
           height: 170,
           alignment: Alignment.center,
@@ -90,7 +101,7 @@ class HomePage extends StatelessWidget {
               ),
               Align(
                 child: Text(
-                  'Evenements',
+                  'EVENEMENT',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 40.0,
@@ -99,11 +110,16 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+        ),
         )
-      ]),
+      ]
+      ),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(5.0, 20.0, 5.0, 20.0),
+        GestureDetector(
+          onTap:  ()=> Get.to(const Atelier_Time()),
+        
+        child:  Container(
+          margin: EdgeInsets.fromLTRB(5.0, 70.0, 5.0, 20.0),
           width: 350,
           height: 170,
           alignment: Alignment.center,
@@ -145,6 +161,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+        ),
         )
       ])
     ]));
