@@ -89,8 +89,17 @@ static Users? _currentUser;
         var columnNames = tableColumns.map((column) => column['name']).toList();
         var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
       
+        if(columnNames.contains('dayOfday')){
+          await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
+        }
         if (!columnNames.contains('month')) {
           await db.execute('ALTER TABLE events ADD COLUMN month INTEGER');
+        }
+        if(!columnNames.contains('dayOfMonth')){
+          await db.execute('ALTER TABLE events ADD COLUMN color INTEGER');
+        }
+        if (!columnNames.contains('dayOfWeek')) {
+          await db.execute('ALTER TABLE events ADD COLUMN eventImage TEXT');
         }
 
         if (!columnNames.contains('repeat')) {
@@ -237,15 +246,24 @@ static Users? _currentUser;
     var res = await db.rawQuery(
         "select * from UserEvent where userId = $userId AND eventId = $eventId");
     if (res.isNotEmpty) {
-      await {
-        db.update(
+      if(res[0]['participate'] as bool){
+        await db.update(
           'UserEvent',
-            {'participate': !(res[0]['participate'] as bool)},
+            {'participate': false},
           where: 'userId = ? AND eventId = ?',
           whereArgs: [userId, eventId],
-        )
-      };
+        );
+      }else{
+        await db.update(
+          'UserEvent',
+            {'participate': true},
+          where: 'userId = ? AND eventId = ?',
+          whereArgs: [userId, eventId],
+        );
+      }
+      
     }else{    
+      print("insert");
         await db.insert(
         'UserEvent',
         {'userId': userId, 'eventId': eventId, 'participate': true},
