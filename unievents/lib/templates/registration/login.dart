@@ -3,6 +3,7 @@ import '../../Components/button.dart';
 import '../../themes/themes.dart';
 import '../../Components/textfield.dart';
 import '../../JSON/users.dart';
+import 'package:provider/provider.dart'; // Import Provider
 
 import '../drawer/hidden_drawer.dart';
 
@@ -30,19 +31,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final db = DatabaseHelper();
   //Login Method
   //We will take the value of text fields using controllers in order to verify whether details are correct or not
-  login()async{
-    var res = await db.authenticate(Users(usrName: usrName.text, password: password.text));
-    if(res == true){
-      //If result is correct then go to profile or home
-      if(!mounted)return;
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> const Hidden_Drawer()));
-    }else{
-      //Otherwise show the error message
-      setState(() {
-        isLoginTrue = true;
-      });
-    }
+  login() async {
+  var res = await db.authenticate(Users(usrName: usrName.text, password: password.text));
+  if (res == true) {
+    // If authentication is successful, set the current user in DatabaseHelper
+    // Provider.of<DatabaseHelper>(context, listen: false).setCurrentUser(Users(usrName: usrName.text, password: password.text));
+
+    // Navigate to the profile or home screen
+    if (!mounted) return;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const Hidden_Drawer()));
+  } else {
+    // Otherwise, show the error message
+    setState(() {
+      isLoginTrue = true;
+    });
   }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

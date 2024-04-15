@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-//hada howa li khasso ib9aa 
+
 import '../JSON/users.dart';
 import '../JSON/events.dart';
 
@@ -32,45 +32,47 @@ class DatabaseHelper extends ChangeNotifier {
     eventDate TEXT,
     eventStartTime TEXT,
     eventEndTime TEXT,
-    color TEXT,
+    repeat TEXT,
+    dayOfWeek INTEGER,
+    dayOfMonth INTEGER,
+    month INTEGER,
+    color INTEGER,
     eventImage TEXT
     )
   ''';
-
-  Users? _currentUser;
-
-  Users? get currentUser => _currentUser;
-
-  Users? getCurrentUser() {
-    print(currentUser?.email ?? 'toto');
-
-    return _currentUser;
-  }
-
-  void setCurrentUser(Users usr) {
-    _currentUser = usr;
-    print(currentUser?.email ?? 'toto');
-    notifyListeners();
-  }
 
   //Our connection is ready
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 3, onCreate: (db, version) async {
+    return openDatabase(path, version: 8, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion < 3) {
-        await db.execute('ALTER TABLE events ADD COLUMN eventType TEXT');
+      if (oldVersion < 4) {
+        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+      }
+      if (oldVersion < 5) {
+        await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+      }
+      if (oldVersion < 6) {
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+      }
+      if (oldVersion < 7) {
+        await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
+      }
+      if (oldVersion < 8) {
+        await db.execute('DROP TABLE IF EXISTS events');
+        await db.execute(events);
       }
     });
   }
 
   //Function methods
 
-  //user methods
+//user methodes
 
   //Authentication
   Future<bool> authenticate(Users usr) async {
@@ -78,16 +80,9 @@ class DatabaseHelper extends ChangeNotifier {
     var result = await db.rawQuery(
         "select * from users where usrName = '${usr.usrName}' AND usrPassword = '${usr.password}' ");
     if (result.isNotEmpty) {
-      // Retrieve user details from the database
-      Users? crtusr = await getUser(usr.usrName);
-      if (crtusr != null) {
-        setCurrentUser(crtusr);
-        return true;
-      } else {
-        return false; // User details not found in the database
-      }
+      return true;
     } else {
-      return false; // User not found in the database, authentication failed
+      return false;
     }
   }
 
@@ -105,8 +100,7 @@ class DatabaseHelper extends ChangeNotifier {
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
   }
 
-  //events methods (CRUD)
-
+//events methodes (CRUD)
   // Event Methods (CRUD)
 
   Future<void> insertEvent(Event event) async {
@@ -127,12 +121,30 @@ class DatabaseHelper extends ChangeNotifier {
   }
 
   Future<List<Event>> getEventsByDate(String date) async {
+    print('date: $date');
     final db = await initDB();
-    final List<Map<String, dynamic>> maps = await db.query(
-      'events',
-      where: 'eventDate = ?',
-      whereArgs: [date],
-    );
+
+    // Convert date string to DateTime
+    DateFormat inputFormat = DateFormat('MMMM dd, yyyy');
+    // DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+    DateTime d = inputFormat.parse(date);
+    // String formattedDate = outputFormat.format(d);
+
+    // Get the day of the week and day of the month of the selected date
+    int dayOfWeek = d.weekday;
+    int dayOfMonth = d.day;
+    int month = d.month;
+
+    // Fetch events from the database
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        "SELECT * FROM events WHERE (eventDate <= ? AND (eventDate = ? OR repeat = 'Daily' OR (repeat = 'Weekly' AND dayOfWeek = ?) OR (repeat = 'Monthly' AND dayOfMonth = ?) OR (repeat = 'Yearly' AND month = ? AND dayOfMonth = ?)))",
+        [date, date, dayOfWeek, dayOfMonth, month, dayOfMonth]);
+
+    // final List<Map<String, dynamic>> maps = await db.query(
+    //   'events',
+    //   where: 'eventDate = ?',
+    //   whereArgs: [date],
+    // );
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
     });
@@ -157,3 +169,6 @@ class DatabaseHelper extends ChangeNotifier {
     );
   }
 }
+
+
+

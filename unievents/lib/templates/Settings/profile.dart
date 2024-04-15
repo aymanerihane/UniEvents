@@ -24,8 +24,8 @@ class _ProfileState extends State<Profile> {
     final auth = Provider.of<DatabaseHelper>(context);
     
     // Check if currentUser is not null, else display 'Guest'
-    final currentUser = auth.currentUser;
-    final username = currentUser != null ? currentUser.usrName : 'Guest';
+    // final currentUser = auth.currentUser;
+    // final username = currentUser != null ? currentUser.usrName : 'Guest';
 
     return Scaffold(
       appBar: _appBar(),
@@ -39,7 +39,8 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 children: [
                   Text(
-                    username, // Display the username
+                    // username, // Display the username
+                    'hhh',
                     style: Theme.of(context)
                         .textTheme
                         .headline6
