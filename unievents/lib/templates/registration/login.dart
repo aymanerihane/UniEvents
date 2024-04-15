@@ -35,8 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var res = await db.authenticate(Users(usrName: usrName.text, password: password.text));
   if (res == true) {
     // If authentication is successful, set the current user in DatabaseHelper
-    // Provider.of<DatabaseHelper>(context, listen: false).setCurrentUser(Users(usrName: usrName.text, password: password.text));
-
+    Provider.of<DatabaseHelper>(context, listen: false).setCurrentUser(Users(usrName: usrName.text, password: password.text));
     // Navigate to the profile or home screen
     if (!mounted) return;
     Navigator.push(context, MaterialPageRoute(builder: (context) => const Hidden_Drawer()));

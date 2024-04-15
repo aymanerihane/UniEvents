@@ -22,10 +22,10 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     // Retrieve the current user from the DatabaseHelper using Provider
     final auth = Provider.of<DatabaseHelper>(context);
-    
+
     // Check if currentUser is not null, else display 'Guest'
-    // final currentUser = auth.currentUser;
-    // final username = currentUser != null ? currentUser.usrName : 'Guest';
+    final currentUser = auth.currentUser;
+    final username = currentUser != null ? currentUser.usrName : 'Guest';
 
     return Scaffold(
       appBar: _appBar(),
@@ -39,8 +39,7 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 children: [
                   Text(
-                    // username, // Display the username
-                    'hhh',
+                    username, // Display the username
                     style: Theme.of(context)
                         .textTheme
                         .headline6
@@ -48,17 +47,17 @@ class _ProfileState extends State<Profile> {
                   ),
                   MyInput(
                     controller: _eventTitle,
-                    hint: 'Username',
+                    hint: username,
                     title: 'Username',
                   ),
                   MyInput(
                     controller: _eventTitle,
-                    hint: 'Enter Event Title',
-                    title: 'Email',
+                    hint: currentUser?.email ?? 'is not',
+                    title: 'Enter Event Title',
                   ),
                   MyInput(
                     controller: _eventTitle,
-                    hint: 'Enter Event Title',
+                    hint: 'change your password',
                     title: 'Password',
                   ),
                   MyButton(
@@ -75,7 +74,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-
 
 class _TopPortion extends StatelessWidget {
   const _TopPortion({Key? key}) : super(key: key);

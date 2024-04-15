@@ -40,7 +40,21 @@ class DatabaseHelper extends ChangeNotifier {
     eventImage TEXT
     )
   ''';
+Users? _currentUser;
 
+  Users? get currentUser => _currentUser;
+
+  Users? getCurrentUser() {
+
+    return _currentUser;
+  }
+
+  void setCurrentUser(Users usr) async {
+  Users? crtusr = await getUser(usr.usrName);
+  _currentUser = crtusr;
+  print(currentUser?.email ?? 'toto');
+  notifyListeners();
+}
   //Our connection is ready
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
@@ -50,8 +64,6 @@ class DatabaseHelper extends ChangeNotifier {
       await db.execute(user);
       await db.execute(events);
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      
-      
       if (oldVersion < 9) {
         await db.execute('ALTER TABLE events ADD COLUMN dayOfDay INTEGER');
         await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
@@ -162,6 +174,3 @@ class DatabaseHelper extends ChangeNotifier {
     );
   }
 }
-
-
-
