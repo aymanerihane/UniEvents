@@ -79,7 +79,7 @@ static Users? _currentUser;
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 19, onCreate: (db, version) async {
+    return openDatabase(path, version: 21, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(events);
       await db.execute(userEvent);
@@ -91,11 +91,14 @@ static Users? _currentUser;
           'usrImage': 'assets/images/user.png',
         });
     }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 19) {
+      if (oldVersion <= 21) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
         var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
+
+        await db.execute('DROP TABLE events');
+        await db.execute(events);
       
         if(columnNames.contains('dayOfday')){
           await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
