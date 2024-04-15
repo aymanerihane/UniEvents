@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unievents/themes/themes.dart';
-import 'package:unievents/wigets/MyButton.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class CardPage extends StatelessWidget {
   const CardPage({super.key});
@@ -184,11 +184,11 @@ class SecondPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.0),
-            MyButton(
-              label: "Participate",
-              onTap: null,
-              visibility: true,
-            ),
+            QrImageView(
+              data: 'userid+eventid',
+              version: QrVersions.auto,
+              size: 200.0,
+            )
           ],
         ),
       ),
