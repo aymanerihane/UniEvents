@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   login() async {
   var res = await db.authenticate(Users(usrName: usrName.text, password: password.text));
   if (res == true) {
+    print("Login Successful");
     // If authentication is successful, set the current user in DatabaseHelper
     Provider.of<DatabaseHelper>(context, listen: false).setCurrentUser(Users(usrName: usrName.text, password: password.text));
     // Navigate to the profile or home screen

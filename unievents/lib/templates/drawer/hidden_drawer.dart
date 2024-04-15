@@ -21,6 +21,7 @@ class Hidden_Drawer extends StatefulWidget {
 
 class _Hidden_DrawerState extends State<Hidden_Drawer> {
   List<ScreenHiddenDrawer> _pages = [];
+  final db = DatabaseHelper();
 
   void initState() {
     super.initState();
@@ -55,12 +56,13 @@ class _Hidden_DrawerState extends State<Hidden_Drawer> {
           CardPage()),
       ScreenHiddenDrawer(
           ItemHiddenMenu(
-            name: "Log In",
+            name: "Log Out",
             baseStyle:
                 TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16.0),
             colorLineSelected: primaryColor,
             selectedStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
             onTap: () {
+              db.logOut();
               Get.to(const AuthScreen());
             },
           ),

@@ -3,6 +3,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:unievents/SQLite/database_helper.dart';
 import 'package:unievents/templates/EventTime/eventDesc/eventDesc.dart';
 import 'package:unievents/wigets/MyButton.dart';
@@ -31,10 +32,15 @@ class _Event_TimeState extends State<Event_Time> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<DatabaseHelper>(context);
+
+    // Check if currentUser is not null, else display 'Guest'
+    final currentUser = auth.currentUser;
     return ListView(
       children:[ Column(
         children: [
-          topEventTimePicker(),
+          Text("${currentUser?.usrType}"),
+          topEventTimePicker(currentUser),
           time_Picker(),
           FutureBuilder<List<Event>>(
               future: DatabaseHelper().getEventsByDate(selectedDate),
@@ -109,7 +115,7 @@ Widget time_Picker(){
 }
 
 
-Widget topEventTimePicker() {
+Widget topEventTimePicker(currentUser) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -144,9 +150,9 @@ Widget topEventTimePicker() {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               MyButton(label: "proposition", onTap: ()=> Get.to(const Propositions()),visibility: true,),
+               MyButton(label: "proposition", onTap: ()=> Get.to(const Propositions()),visibility: currentUser?.usrType != 0,),
               const SizedBox(width: 20,),
-              MyButton(label: "+ add Event" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
+              MyButton(label: true ?"+ add Event":"+ add Proposition" , onTap: ()=> Get.to(const Add_event()),visibility: true,),
             ],
           ),
         ),

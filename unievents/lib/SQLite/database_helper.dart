@@ -126,6 +126,11 @@ Users? _currentUser;
 
 //user methodes
 
+  //log out
+  void logOut() {
+    _currentUser = null;
+    notifyListeners();
+  }
   //Authentication
   Future<bool> authenticate(Users usr) async {
     final Database db = await initDB();
@@ -141,6 +146,7 @@ Users? _currentUser;
   //Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
+    print(usr.toMap());
     return db.insert("users", usr.toMap());
   }
 
@@ -218,6 +224,24 @@ Users? _currentUser;
       'events',
       where: 'eventId = ?',
       whereArgs: [id],
+    );
+  }
+
+  //UserEvent methods
+  Future<void> insertUserEvent(int userId, int eventId) async {
+    final db = await initDB();
+    await db.insert(
+      'UserEvent',
+      {'userId': userId, 'eventId': eventId},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+  Future<void> deleteUserEvent(int userId, int eventId) async {
+    final db = await initDB();
+    await db.delete(
+      'UserEvent',
+      where: 'userId = ? AND eventId = ?',
+      whereArgs: [userId, eventId],
     );
   }
 }

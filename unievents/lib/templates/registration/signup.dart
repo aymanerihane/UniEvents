@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
   signUp()async{
-    var res = await db.createUser(Users(fullName: fullName.text,email: email.text,usrName: usrName.text, password: password.text));
+    var res = await db.createUser(Users(fullName: fullName.text,email: email.text,usrName: usrName.text, password: password.text,usrType: 1));
     if(res>0){
       if(!mounted)return;
       Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));

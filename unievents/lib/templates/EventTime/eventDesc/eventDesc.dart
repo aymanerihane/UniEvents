@@ -2,9 +2,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:unievents/JSON/userevent.dart';
+import 'package:unievents/SQLite/database_helper.dart';
+import 'package:unievents/wigets/MyButton.dart';
 
 class SecondPage extends StatefulWidget {
   final int heroTag;
@@ -17,16 +21,20 @@ class SecondPage extends StatefulWidget {
 class _SecondPageState extends State<SecondPage> {
   String? directoryPath;
   var event;
+  var userEvent;
+  
 
   Future<String> getDirectoryPath() async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
+  
 
   @override
   void initState() {
     super.initState();
     event = Get.arguments;
+    userEvent = Get.arguments;
     getDirectoryPath().then((path) {
       setState(() {
         directoryPath = path;
@@ -35,6 +43,11 @@ class _SecondPageState extends State<SecondPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<DatabaseHelper>(context);
+
+    // Check if currentUser is not null, else display 'Guest'
+    final currentUser = auth.currentUser;
+    final username = currentUser != null ? currentUser.usrName : 'Guest';
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),
@@ -44,18 +57,16 @@ class _SecondPageState extends State<SecondPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: FileImage(File('$directoryPath/${event.eventImage}')),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              height: 200.0,
-              width: double.infinity,
-            ),
-            SizedBox(height: 20.0),
+            Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+            child: Image(
+              image: FileImage(File('$directoryPath/${event.eventImage}')),
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,)),
+            const SizedBox(height: 20.0),
             Text(
               event.eventName,
               style: TextStyle(
@@ -92,8 +103,9 @@ class _SecondPageState extends State<SecondPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+              MyButton(label: "Participate", onTap: null, visibility: true),
               QrImageView(
-              data: 'userid+${event.eventId}',
+              data: '${currentUser?.usrId}+${event.eventId}',
               version: QrVersions.auto,
               size: 200.0,
             )
