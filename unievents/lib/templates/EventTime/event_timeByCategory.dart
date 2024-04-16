@@ -66,6 +66,7 @@ class Event_TimeByCategorieState extends State<Event_TimeByCategorie> {
                               discription: event.eventDescription,
                               type: event.eventType,
                               date: event.eventDate,
+                              eventID: event.eventId,
                               colore: event.color == 0 ? eventColor1 : event.color == 1 ? eventColor2 : eventColor3,// Parse and create color,
                               onTap: ()=>navigateToEventDetails(event),
                             

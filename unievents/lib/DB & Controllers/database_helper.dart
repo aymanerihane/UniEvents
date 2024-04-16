@@ -81,7 +81,7 @@ class DatabaseHelper extends ChangeNotifier {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 33 , onCreate: (db, version) async {
+    return openDatabase(path, version: 34 , onCreate: (db, version) async {
       // await db.execute(user);
       // await db.execute(events);
       // await db.execute(userEvent);
@@ -89,10 +89,12 @@ class DatabaseHelper extends ChangeNotifier {
       
     }, onUpgrade: (db, oldVersion, newVersion) async {
       
-      if (oldVersion <= 33) {
-        
+      if (oldVersion <= 34) {
+        await db.execute('DROP TABLE IF EXISTS events');
         await db.execute(events);
+        await db.execute('DROP TABLE IF EXISTS users');
         await db.execute(user);
+        await db.execute('DROP TABLE IF EXISTS UserEvent');
         await db.execute(userEvent);
         await db.insert('users', {
         'usrName': 'admin',
@@ -100,48 +102,48 @@ class DatabaseHelper extends ChangeNotifier {
         'usrType': 0,
         'usrImage': 'assets/images/user.png',
       });
-        var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
-        var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
-        var columnNames = tableColumns.map((column) => column['name']).toList();
-        var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
+      //   var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
+      //   var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
+      //   var columnNames = tableColumns.map((column) => column['name']).toList();
+      //   var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
 
       
 
-        if (columnNames.contains('dayOfday')) {
-          await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
-        }
+      //   if (columnNames.contains('dayOfday')) {
+      //     await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
+      //   }
 
-        if (!columnNames.contains('month')) {
-          await db.execute('ALTER TABLE events ADD COLUMN month INTEGER');
-        }
-        if (!columnNames.contains('dayOfMonth')) {
-          await db.execute('ALTER TABLE events ADD COLUMN color INTEGER');
-        }
-        if (!columnNames.contains('dayOfWeek')) {
-          await db.execute('ALTER TABLE events ADD COLUMN eventImage TEXT');
-        }
+      //   if (!columnNames.contains('month')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN month INTEGER');
+      //   }
+      //   if (!columnNames.contains('dayOfMonth')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN color INTEGER');
+      //   }
+      //   if (!columnNames.contains('dayOfWeek')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN eventImage TEXT');
+      //   }
 
-        if (!columnNames.contains('repeat')) {
-          await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
-        }
-        if (!columnNames.contains('dayOfMonth')) {
-          await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
-        }
-        if (!columnNames.contains('dayOfWeek')) {
-          await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
-        }
+      //   if (!columnNames.contains('repeat')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN repeat TEXT');
+      //   }
+      //   if (!columnNames.contains('dayOfMonth')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN dayOfMonth INTEGER');
+      //   }
+      //   if (!columnNames.contains('dayOfWeek')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN dayOfWeek INTEGER');
+      //   }
 
-        if (!columnNames.contains('isProposition')) {
-          await db.execute('ALTER TABLE events ADD COLUMN isProposition INTEGER');
-        }
+      //   if (!columnNames.contains('isProposition')) {
+      //     await db.execute('ALTER TABLE events ADD COLUMN isProposition INTEGER');
+      //   }
 
 
-        if (!columnNamesOfUsers.contains('usrType')) {
-          await db.execute('ALTER TABLE users ADD COLUMN usrType INTEGER');
-        }
-        if (!columnNamesOfUsers.contains('usrImage')) {
-          await db.execute('ALTER TABLE users ADD COLUMN usrImage TEXT');
-        }
+      //   if (!columnNamesOfUsers.contains('usrType')) {
+      //     await db.execute('ALTER TABLE users ADD COLUMN usrType INTEGER');
+      //   }
+      //   if (!columnNamesOfUsers.contains('usrImage')) {
+      //     await db.execute('ALTER TABLE users ADD COLUMN usrImage TEXT');
+      //   }
       }
     });
   }

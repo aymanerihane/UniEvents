@@ -33,7 +33,7 @@ class Card_Event extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            width: width * 0.9,
+            width: width * 0.9+7.8,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: colore,
@@ -43,7 +43,7 @@ class Card_Event extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: width * 0.65,
+                    width: width * 0.6,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
