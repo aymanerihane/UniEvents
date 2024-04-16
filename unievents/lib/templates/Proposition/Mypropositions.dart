@@ -190,7 +190,7 @@ _appBar() {
       icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
       onPressed: () => Get.back(),
     ),
-    title: const Text('My Propositions'),
+    title: const Text('Propositions'),
     centerTitle: true,
   );
 }

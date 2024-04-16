@@ -16,31 +16,30 @@ class DatabaseHelper extends ChangeNotifier {
   //Don't put a comma at the end of a column in sqlite
 
   String user = '''
-   CREATE TABLE users (
+   CREATE TABLE IF NOT EXISTS users (
    usrId INTEGER PRIMARY KEY AUTOINCREMENT,
    fullName TEXT,
    email TEXT,
    usrName TEXT UNIQUE,
    usrPassword TEXT,
     usrImage TEXT,
-    usrType INTEGER default 1,
-    
-   )
+    usrType INTEGER default 1
+   );
    ''';
 
   String userEvent = '''
-      CREATE TABLE UserEvent (
+      CREATE TABLE IF NOT EXISTS UserEvent (
         userId INTEGER,
         eventId INTEGER,
         participate BOOLEAN DEFAULT false,
         PRIMARY KEY(userId, eventId),
         FOREIGN KEY(userId) REFERENCES User(id),
         FOREIGN KEY(eventId) REFERENCES Event(id)
-      )
+      );
     ''';
 
-  String events = '''
-    CREATE TABLE events (
+    String events = '''
+  CREATE TABLE IF NOT EXISTS events (
     eventId INTEGER PRIMARY KEY AUTOINCREMENT,
     eventName TEXT,
     eventDescription TEXT,
@@ -51,12 +50,14 @@ class DatabaseHelper extends ChangeNotifier {
     repeat TEXT,
     dayOfWeek INTEGER,
     dayOfMonth INTEGER,
-    month INTEGER,
+    month INTEGER, 
     color INTEGER,
-    eventImage TEXT
-    isProposition int
-    )
-  ''';
+    eventImage TEXT,
+    isProposition INTEGER
+  );
+''';
+
+  
   static Users? _currentUser;
 
   Users? get currentUser => _currentUser;
@@ -80,27 +81,31 @@ class DatabaseHelper extends ChangeNotifier {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 22, onCreate: (db, version) async {
-      await db.execute(user);
-      await db.execute(events);
-      await db.execute(userEvent);
+    return openDatabase(path, version: 33 , onCreate: (db, version) async {
+      // await db.execute(user);
+      // await db.execute(events);
+      // await db.execute(userEvent);
       //ajouter un super user
-      await db.insert('users', {
+      
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      
+      if (oldVersion <= 33) {
+        
+        await db.execute(events);
+        await db.execute(user);
+        await db.execute(userEvent);
+        await db.insert('users', {
         'usrName': 'admin',
         'usrPassword': 'admin',
         'usrType': 0,
         'usrImage': 'assets/images/user.png',
       });
-    }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion <= 22) {
         var tableColumns = await db.rawQuery('PRAGMA table_info(events)');
         var tableColumnsOFUsers = await db.rawQuery('PRAGMA table_info(users)');
         var columnNames = tableColumns.map((column) => column['name']).toList();
-        var columnNamesOfUsers =
-            tableColumnsOFUsers.map((column) => column['name']).toList();
+        var columnNamesOfUsers = tableColumnsOFUsers.map((column) => column['name']).toList();
 
-        await db.execute('DROP TABLE events');
-        await db.execute(events);
+      
 
         if (columnNames.contains('dayOfday')) {
           await db.execute('ALTER TABLE events Drop COLUMN dayOfday');
@@ -127,14 +132,10 @@ class DatabaseHelper extends ChangeNotifier {
         }
 
         if (!columnNames.contains('isProposition')) {
-          await db
-              .execute('ALTER TABLE events ADD COLUMN isProposition INTEGER');
+          await db.execute('ALTER TABLE events ADD COLUMN isProposition INTEGER');
         }
-        // if(columnNamesOfUsers.contains('patricipate')){
-        //   await db.execute('ALTER TABLE user DROP COLUMN patricipate');
-        // }
-        print(columnNames);
-        print(columnNamesOfUsers);
+
+
         if (!columnNamesOfUsers.contains('usrType')) {
           await db.execute('ALTER TABLE users ADD COLUMN usrType INTEGER');
         }
